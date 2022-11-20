@@ -26,10 +26,11 @@ jobs:
     - run: npm run build --if-present
     
   Test:
+    needs: Build
     runs-on: ubuntu-latest
     
     steps:
-    - uses: action/checkout@v3
+    - uses: actions/checkout@v3
     
     - name: Set up node.js version
       uses: actions/setup-node@v3
