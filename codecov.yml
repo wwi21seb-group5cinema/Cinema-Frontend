@@ -1,0 +1,10 @@
+codecov:
+  bot: "codecov-bot"
+  
+coverage:
+  range: "85...100"
+  status:
+    project:
+      default:
+        target: 90%
+        threshold: 2%
