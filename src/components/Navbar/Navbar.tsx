@@ -15,7 +15,7 @@ function Navbar(){
         <div className="navBar">
             <div className="search" onKeyDown={KeyDownHandler}>
                 <input id="searchbar"
-                    placeholder="Search for movies"
+                    placeholder="Suche nach Filmen"
                 />
                 <img
                     src="https://via.placeholder.com/400"
