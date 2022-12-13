@@ -30,7 +30,6 @@ function Movie(){
             </div>
                 <div className="row">
                     <div className="events">
-                        <p>Informationen und Veranstaltungen innerhalb einer Woche </p>
                         <ul>
                             <li onClick={clickHandlerEvent}>
                                 Veranstaltung 15.12.22
