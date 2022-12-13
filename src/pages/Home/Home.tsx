@@ -2,22 +2,17 @@ import Navbar from "../../components/Navbar/Navbar";
 import Movie from "../../components/Movie/Movie";
 import "./Home.css"
 function Home(){
+
+
     return(
         <div className="app">
-
-            <div className="search">
                <Navbar/>
-            </div>
-            <div className="container">
-
-            <div>
+                <h1>Veranstaltungen</h1>
                 <Movie/>
                 <Movie/>
-
             </div>
-        </div>
 
-        </div>
+
 
     );
 }
