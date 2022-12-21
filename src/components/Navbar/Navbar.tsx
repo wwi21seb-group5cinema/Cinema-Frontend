@@ -1,12 +1,14 @@
 import "./Navbar.css"
 import Searchbar from "../../components/Searchbar/Searchbar";
 import {Link} from "react-router-dom";
+import MovieDBLogo from "../../images/MovieDBLogo.svg";
 
 
 function Navbar(){
     return(
 
         <nav className="navbar">
+            <img src={MovieDBLogo} alt="MovieDB"/>
             <h3>
                 <Searchbar/>
             </h3>
@@ -17,6 +19,7 @@ function Navbar(){
                 <Link className="linkText" to="/Login">
                     <li>Konto</li>
                 </Link>
+
             </ul>
         </nav>
 
