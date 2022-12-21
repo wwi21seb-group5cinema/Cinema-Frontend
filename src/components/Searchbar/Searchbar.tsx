@@ -18,7 +18,9 @@ function Searchbar(){
                 <input id="inputText"
                     placeholder="Suche nach Filmen"
                 />
-                <h1 className="searchIcon" onClick={SearchMovies}><AiOutlineSearch/></h1>
+                <h1 className="searchIcon" onClick={SearchMovies}>
+                    <AiOutlineSearch/>
+                </h1>
             </div>
     );
 }
