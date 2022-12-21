@@ -2,7 +2,7 @@
 
 
 .searchbar {
-    width: 100%;
+    width: 150%;
     margin-top: 1%;
     margin-left:1%;
     margin-bottom: 1%;
@@ -33,4 +33,11 @@
     width: 35px;
     height: 35px;
     cursor: pointer;
+}
+.searchIcon{
+    width: 35px;
+    height: 35px;
+}
+.searchIcon :hover{
+    color: #61dafb;
 }

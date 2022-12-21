@@ -2,6 +2,7 @@ import "./Navbar.css"
 import Searchbar from "../../components/Searchbar/Searchbar";
 import {Link} from "react-router-dom";
 
+
 function Navbar(){
     return(
 
@@ -14,7 +15,7 @@ function Navbar(){
                     <li>Veranstaltungen</li>
                 </Link>
                 <Link className="linkText" to="/Login">
-                    <li>Login</li>
+                    <li>Konto</li>
                 </Link>
             </ul>
         </nav>

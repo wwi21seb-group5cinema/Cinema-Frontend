@@ -12,6 +12,8 @@
     justify-content: space-around;
     align-items: center;
     list-style: none;
+    place-content: flex-end;
+
 }
 .linkText{
     color: darkgrey;
@@ -19,10 +21,9 @@
     font-size: 1.5rem;
     font-family: var(--font-raleway);
     font-weight: 500;
+    margin: 1% 1% 1% 1%;
 }
 .linkText li:hover{
     color: #61dafb;
 }
-.linkText li:active{
-    color: #61dafb;
-}
+
