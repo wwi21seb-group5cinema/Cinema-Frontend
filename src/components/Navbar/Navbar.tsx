@@ -1,30 +1,28 @@
 import "./Navbar.css"
+import Searchbar from "../../components/Searchbar/Searchbar";
+import {Link} from "react-router-dom";
+import MovieDBLogo from "../../images/MovieDBLogo.svg";
+
+
 function Navbar(){
-    function SearchMovies(){
-       const searchbar:any = document.getElementById('searchbar');
-       const text:string|null = searchbar.value;
-       window.alert(text );
-    }
-    function KeyDownHandler(e:any){
-        if(e.keyCode === 13){
-            SearchMovies();
-        }
-    }
-
     return(
-        <div className="navBar">
-            <div className="search" onKeyDown={KeyDownHandler}>
-                <input id="searchbar"
-                    placeholder="Suche nach Filmen"
-                />
-                <img
-                    src="https://via.placeholder.com/400"
-                    alt="search"
-                    onClick={SearchMovies}
-                />
-            </div>
 
-        </div>
-    );
+        <nav className="navbar">
+            <img src={MovieDBLogo} alt="MovieDB"/>
+            <h3>
+                <Searchbar/>
+            </h3>
+            <ul className="links">
+                <Link className="linkText" to="/">
+                    <li>Veranstaltungen</li>
+                </Link>
+                <Link className="linkText" to="/Login">
+                    <li>Konto</li>
+                </Link>
+
+            </ul>
+        </nav>
+
+    )
 }
 export default Navbar
