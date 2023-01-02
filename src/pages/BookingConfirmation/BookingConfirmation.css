@@ -1,0 +1,34 @@
+.app{
+    color: #61dafb;
+}
+
+.ant-row {
+    width: 100%;
+}
+
+.ant-col {
+    text-align: center;
+}
+
+#Header, #Footer {
+    height: 10vh;
+    max-height: 10vh;
+}
+
+#Content {
+    height: 80vh;
+    max-height: 80vh;
+    background-color: white;
+}
+
+#splitContent {
+    height: 100%;
+}
+
+#personalInfoContainer, #paymentMethodContainer {
+    height: 50%;
+}
+
+* {
+    border: 1px solid white;
+}

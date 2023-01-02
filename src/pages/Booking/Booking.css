@@ -1,3 +1,54 @@
 .app{
     color: #61dafb;
 }
+
+.ant-row {
+    width: 100%;
+}
+
+.ant-col {
+    text-align: center;
+}
+
+#Header, #Footer {
+    height: 10vh;
+    max-height: 10vh;
+}
+
+#Content {
+    height: 80vh;
+    max-height: 80vh;
+    background-color: darkgrey;
+}
+
+.splitContainer {
+    height: 100%;
+    width: 100%;
+    display: inherit;
+}
+
+.leftColumn,  .rightColumn {
+    width: 25%;
+    text-align: center;
+}
+
+.middleColumn {
+    width: 50%;
+    text-align: center;
+}
+
+.leftColumn {
+    background: blue;
+}
+
+.middleColumn {
+    background: white;
+}
+
+.rightColumn {
+    background: red;
+}
+
+* {
+    border: 1px solid white;
+}

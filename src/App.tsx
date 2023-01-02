@@ -3,6 +3,7 @@ import './App.css';
 import Home from "./pages/Home/Home";
 import MovieInfo from "./pages/MovieInfo/MovieInfo";
 import Booking from "./pages/Booking/Booking";
+import BookingConfirmation from "./pages/BookingConfirmation/BookingConfirmation";
 import Admin from "./pages/Admin/Admin";
 import {BrowserRouter, Routes,Route} from 'react-router-dom';
 
@@ -13,6 +14,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="MovieInfo" element={<MovieInfo/>}/>
               <Route path="Booking" element={<Booking/>}/>
+              <Route path="BookingConfirmation" element={<BookingConfirmation/>}/>
               <Route path="Admin" element={<Admin/>}/>
           </Routes>
       </BrowserRouter>

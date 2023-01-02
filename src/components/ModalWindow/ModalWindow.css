@@ -1,0 +1,44 @@
+html, body, #root, #root>div{
+    height: 100%;
+}
+
+.bgDarken {
+    background: rgba(64, 64, 64, 0.5);
+}
+
+.bgBlack {
+    background: black;
+}
+
+.cinemaModal {
+    position:fixed;
+    top:0;
+    left: 0;
+
+    width: 100vw;
+    height: 100%;
+    padding:0;
+    margin:0;
+}
+
+.innerModal {
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+}
+
+.notShown {
+    visibility: hidden;
+}
+
+.isShown {
+    visibility: visible;
+}
+
+#canv {
+    width: 175%;
+    height: 175%;
+}
