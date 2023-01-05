@@ -1,11 +1,14 @@
 import "./Login.css"
 import Navbar from "../../components/Navbar/Navbar";
-function Admin(){
+import LoginForm from "../../components/LoginForm/LoginForm";
+
+function Login(){
+
     return(
         <div className="app">
             <Navbar/>
-            <p>Login </p>
+            <LoginForm/>
         </div>
     );
 }
-export default Admin
+export default Login
