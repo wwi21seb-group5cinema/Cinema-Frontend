@@ -1,9 +1,13 @@
 import React from 'react';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import {Button, ConfigProvider, Form, Input, theme} from 'antd';
-import {Link} from "react-router-dom";
+import {Link, useNavigate, To} from "react-router-dom";
+import Cookies from "js-cookie";
+
 
 const LoginForm: React.FC = () => {
+
+    const navigate = useNavigate();
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
         const options = {
@@ -12,9 +16,11 @@ const LoginForm: React.FC = () => {
             body: JSON.stringify(values),
         }
         fetch('http://localhost:8082/v1/login', options)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
+            .then(response => {
+                if(response.status === 200){
+                    Cookies.set('isLoggedIn', 'true', { expires: 7 });
+                    navigate(-1 as To,{replace: true});
+                }
             })
             .catch(error =>{
                 console.log(error)

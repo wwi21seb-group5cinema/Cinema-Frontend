@@ -16,10 +16,9 @@ function Navbar(){
                 <Link className="linkText" to="/">
                     <li>Veranstaltungen</li>
                 </Link>
-                <Link className="linkText" to="/Login">
+                <Link className="linkText" to="/Account">
                     <li>Konto</li>
                 </Link>
-
             </ul>
         </nav>
 

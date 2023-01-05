@@ -1,6 +1,8 @@
 import React from 'react';
 import {Button, Form, Input, ConfigProvider, theme, InputNumber} from 'antd';
 import "./RegisterForm.css";
+import {To, useNavigate} from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 
 const formItemLayout = {
@@ -29,11 +31,12 @@ const tailFormItemLayout = {
 
 const Register: React.FC = () => {
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     const onFinish = (values: any) => {
         delete values.confirm;
         values.isAdmin = "false";
-        console.log('Received values of form: ', values);
+
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -42,8 +45,9 @@ const Register: React.FC = () => {
         fetch('http://localhost:8082/v1/register', options)
             .then(response => {
                 console.log(response.status);
-                if(response.status == 201){
-
+                if(response.status === 201){
+                    Cookies.set('isLoggedIn', 'true', { expires: 7 });
+                    navigate(-2 as To, { replace: true })
                 }
             })
             .catch(error =>{
