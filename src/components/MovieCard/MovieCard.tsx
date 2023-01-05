@@ -1,9 +1,5 @@
-
-//import './Movie.css'
-
 import React from 'react';
 import { Card, Col, ConfigProvider, Row, theme } from 'antd';
-import {Link} from "react-router-dom";
 
 const styles = {
     movie: {
@@ -20,13 +16,7 @@ interface Props {
   description: string;
 }
 
-const Movie: React.FC<Props> = ({ imageUrl, title, description }) => {
-
-    function clickHandlerMovie(){
-        window.location.href = '/MovieInfo'
-    }
-
-    
+const MovieCard: React.FC<Props> = ({ imageUrl, title, description }) => {
   return (
     <ConfigProvider theme={{algorithm: theme.darkAlgorithm}}>
         <Card 
@@ -36,19 +26,11 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description }) => {
         >
         <Row>
             <Col span={12}>
-            <img src={imageUrl} alt={title} onClick={clickHandlerMovie}/>
+            <img src={imageUrl} alt={title} />
             </Col>
             <Col span={12}>
             <h3>{title}</h3>
             <p>{description}</p>
-            <ul>
-                <Link className="linkText" to="/Booking">
-                    <li>Veranstaltung 16.12.22</li>
-                </Link>
-                <Link className="linkText" to="/Booking">
-                    <li>Veranstaltung 17.12.22</li>
-                </Link>
-            </ul>
             </Col>
         </Row>
         </Card>
@@ -56,4 +38,4 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description }) => {
   );
 };
 
-export default Movie;
+export default MovieCard;

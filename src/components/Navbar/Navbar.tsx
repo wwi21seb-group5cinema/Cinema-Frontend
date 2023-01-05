@@ -19,6 +19,9 @@ function Navbar(){
                 <Link className="linkText" to="/Login">
                     <li>Konto</li>
                 </Link>
+                <Link className="linkText" to="/Movies">
+                    <li>Filme</li>
+                </Link>
 
             </ul>
         </nav>
