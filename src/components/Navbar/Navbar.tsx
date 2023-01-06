@@ -22,7 +22,6 @@ function Navbar(){
                 <Link className="linkText" to="/Account">
                     <li>Konto</li>
                 </Link>
-
             </ul>
         </nav>
 
