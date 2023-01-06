@@ -5,7 +5,10 @@ import MovieInfo from "./pages/MovieInfo/MovieInfo";
 import Booking from "./pages/Booking/Booking";
 import Admin from "./pages/Admin/Admin";
 import Login from "./pages//Login/Login";
+import Register from "./pages/Register/Register";
+import Account from "./pages/Account/Account";
 import {BrowserRouter, Routes,Route} from 'react-router-dom';
+
 
 function App() {
   return (
@@ -16,6 +19,8 @@ function App() {
               <Route path="Booking" element={<Booking/>}/>
               <Route path="Admin" element={<Admin/>}/>
               <Route path="Login" element={<Login/>}/>
+              <Route path="Register" element={<Register/>}/>
+              <Route path="Account" element={<Account/>}/>
           </Routes>
       </BrowserRouter>
 

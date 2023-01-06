@@ -1,6 +1,10 @@
 import "./Searchbar.css"
 import { AiOutlineSearch } from 'react-icons/ai';
+import {useState} from "react";
 function Searchbar(){
+
+    const [search,setSearch] = useState('');
+
     function SearchMovies(){
        const searchbar:any = document.getElementById('inputText');
        const text:string|null = searchbar.value;
@@ -15,9 +19,7 @@ function Searchbar(){
 
     return(
             <div className="searchbar" onKeyDown={KeyDownHandler}>
-                <input id="inputText"
-                    placeholder="Suche nach Filmen"
-                />
+                <input value={search} placeholder="Suche nach Filmen" onChange={(e)=>setSearch(e.target.value)}/>
                 <h1 className="searchIcon" onClick={SearchMovies}>
                     <AiOutlineSearch/>
                 </h1>
