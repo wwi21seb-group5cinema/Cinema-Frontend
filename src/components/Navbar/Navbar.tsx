@@ -19,7 +19,7 @@ function Navbar(){
                 <Link className="linkText" to="/Movies">
                     <li>Filme</li>
                 </Link>
-                <Link className="linkText" to="/Login">
+                <Link className="linkText" to="/Account">
                     <li>Konto</li>
                 </Link>
 
