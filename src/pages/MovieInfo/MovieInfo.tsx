@@ -1,4 +1,7 @@
-import './MovieInfo.css'
+//import './MovieInfo.css'
+import { useState, useEffect } from "react";
+import MovieCard from "../../components/MovieCard/MovieCard";
+import Navbar from "../../components/Navbar/Navbar";
 function MovieInfo(){
 
     function clickHandler(){

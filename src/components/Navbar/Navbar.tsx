@@ -16,6 +16,9 @@ function Navbar(){
                 <Link className="linkText" to="/">
                     <li>Veranstaltungen</li>
                 </Link>
+                <Link className="linkText" to="/Movies">
+                    <li>Filme</li>
+                </Link>
                 <Link className="linkText" to="/Login">
                     <li>Konto</li>
                 </Link>

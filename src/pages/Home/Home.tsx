@@ -8,9 +8,10 @@ function Home(){
     return(
         <div className="app">
             <Navbar/>
-                <h1>Veranstaltungen</h1>
-                <Movie/>
-                <Movie/>
+                <MovieCarousel imageUrl={""} title={""}/>
+                <Movie imageUrl={""} title={""} description={""}/>
+                <Movie imageUrl={""} title={""} description={""}/>
+                <Movie imageUrl={""} title={""} description={""}/>
             </div>
 
 
