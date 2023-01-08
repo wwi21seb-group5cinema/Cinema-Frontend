@@ -1,51 +1,61 @@
+//import './Movie.css'
 
-import './Movie.css'
+import React from 'react';
+import { Card, Col, ConfigProvider, Row, theme } from 'antd';
+import {Link} from "react-router-dom";
 
-function Movie(){
+const styles = {
+    movie: {
+        margin: 20,
+        backgroundColor: "#555555",
+        borderColor: "#61dafb",
+        color: "white"
+        }
+};
+
+interface Props {
+  imageUrl: string;
+  title: string;
+  description: string;
+  events: string;
+}
+
+const Movie: React.FC<Props> = ({ imageUrl, title, description, events }) => {
 
     function clickHandlerMovie(){
         window.location.href = '/MovieInfo'
     }
-    function clickHandlerEvent(){
-        window.location.href = '/Booking'
-    }
 
-    return (
-        <div className="container">
-            <div className="row" >
-                <div className="movie">
+    
 
-                    <div>
-                        <p>2010</p>
-                    </div>
+    
+  return (
+    <ConfigProvider theme={{algorithm: theme.darkAlgorithm}}>
+        <Card 
+        title="Movie" 
+        style={styles.movie} 
+        headStyle={{color: "white"}}
+        >
+        <Row>
+            <Col span={12}>
+            <img src={imageUrl} alt={title} onClick={clickHandlerMovie}/>
+            </Col>
+            <Col span={12}>
+            <h3>{title}</h3>
+            <p>{description}</p>
+            <ul>
+                <Link className="linkText" to="/Booking" state={{props: title}} >
+                    <li>{events}</li>
+                </Link>
+                <Link className="linkText" to="/Booking">
+                    <li>{events}</li>
+                </Link>
+            </ul>
+            </Col>
+        </Row>
+        </Card>
+    </ConfigProvider>
+  );
+};
 
-                     <div>
-                        <img src="https://via.placeholder.com/400" alt={"Title"} onClick={clickHandlerMovie} />
-                    </div>
-
-                    <div>
-                        <h3>{"titel"}</h3>
-                    </div>
-                </div>
-            </div>
-                <div className="row">
-                    <div className="events">
-                        <ul>
-                            <li onClick={clickHandlerEvent}>
-                                Veranstaltung 15.12.22
-                            </li>
-                            <li onClick={clickHandlerEvent}>
-                                Veranstaltung 17.12.22
-                            </li>
-                        </ul>
-
-                    </div>
-
-
-                </div>
-
-
-        </div>
-    );
-}
 export default Movie;
