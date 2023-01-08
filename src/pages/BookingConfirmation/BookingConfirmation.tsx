@@ -136,8 +136,6 @@ function BookingConfirmation(){
                         email: data.email
                         };
                     setUserData(userInfo);
-                    console.log("-----------------------------------------------------------------------------")
-                    console.log(userInfo);
                 }
 
             ).catch(error =>{
