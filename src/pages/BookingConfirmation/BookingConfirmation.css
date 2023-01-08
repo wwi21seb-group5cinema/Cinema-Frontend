@@ -8,17 +8,17 @@
 
 .ant-col {
     text-align: center;
+    overflow: auto;
 }
 
 #Header, #Footer {
-    height: 10vh;
-    max-height: 10vh;
+    height: 15vh;
+    max-height: 15vh;
 }
 
 #Content {
-    height: 80vh;
-    max-height: 80vh;
-    background-color: white;
+    height: 85vh;
+    max-height: 85vh;
 }
 
 #splitContent {
@@ -27,8 +27,4 @@
 
 #personalInfoContainer, #paymentMethodContainer {
     height: 50%;
-}
-
-* {
-    border: 1px solid white;
 }

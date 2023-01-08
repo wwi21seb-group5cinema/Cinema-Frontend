@@ -11,14 +11,13 @@
 }
 
 #Header, #Footer {
-    height: 10vh;
-    max-height: 10vh;
+    height: 15vh;
+    max-height: 15vh;
 }
 
 #Content {
     height: 80vh;
     max-height: 80vh;
-    background-color: darkgrey;
 }
 
 .splitContainer {
@@ -35,20 +34,4 @@
 .middleColumn {
     width: 50%;
     text-align: center;
-}
-
-.leftColumn {
-    background: blue;
-}
-
-.middleColumn {
-    background: white;
-}
-
-.rightColumn {
-    background: red;
-}
-
-* {
-    border: 1px solid white;
 }

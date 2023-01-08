@@ -1,0 +1,16 @@
+{
+  "id": "104a816c-255f-4b7f-ad96-679526f87057",
+  "userName": "ichBinCool123",
+  "password": "$2a$10$E/A0TYt5LO4X3.ZPhZ2JP.jIVUD7Q2lIMooyeP7vpMFNECdOsyXSu",
+  "role": "USER",
+  "firstName": "Max",
+  "lastName": "Mustermann",
+  "email": "max.mustermann@gmail.com",
+  "city": {
+    "id": "a43abb85-ec44-4263-9709-f263c6e59182",
+    "plz": "74321",
+    "name": "Bietigheim"
+  },
+  "street": "Rentnerstraße",
+  "houseNumber": "5"
+}
