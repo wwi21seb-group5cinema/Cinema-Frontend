@@ -9,7 +9,6 @@ const LoginForm: React.FC = () => {
 
     const navigate = useNavigate();
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -18,9 +17,15 @@ const LoginForm: React.FC = () => {
         fetch('http://localhost:8082/v1/login', options)
             .then(response => {
                 if(response.status === 200){
-                    Cookies.set('isLoggedIn', 'true', { expires: 7 });
                     navigate(-1 as To,{replace: true});
+                    return response.json();
+                }else{
+                    alert("Benutzer mit diesen Daten ist nicht vorhanden");
                 }
+            })
+            .then(data =>{
+                Cookies.set('isLoggedIn', 'true', { expires: 7 });
+                Cookies.set('userID', data.id, { expires: 7 });
             })
             .catch(error =>{
                 console.log(error)
