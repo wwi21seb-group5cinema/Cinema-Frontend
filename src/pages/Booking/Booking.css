@@ -1,3 +1,37 @@
 .app{
     color: #61dafb;
 }
+
+.ant-row {
+    width: 100%;
+}
+
+.ant-col {
+    text-align: center;
+}
+
+#Header, #Footer {
+    height: 15vh;
+    max-height: 15vh;
+}
+
+#Content {
+    height: 80vh;
+    max-height: 80vh;
+}
+
+.splitContainer {
+    height: 100%;
+    width: 100%;
+    display: inherit;
+}
+
+.leftColumn,  .rightColumn {
+    width: 25%;
+    text-align: center;
+}
+
+.middleColumn {
+    width: 50%;
+    text-align: center;
+}
