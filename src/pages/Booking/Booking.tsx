@@ -66,10 +66,27 @@ function Booking() {
 
     function addTicket(newTicket: wantedTicket) {
         setContent((pre: wantedTicket[]) => {
-            updateTotal("add", newTicket);
-            Cookies.set("shoppingCartContent", JSON.stringify([...pre, newTicket]));
-            return [...pre, newTicket];
-            });
+            if(isTicketNew(pre, newTicket)===false) {
+                alert("Dieses Ticket befindet sich bereits in Ihrem Einkauf");
+                return [...pre];
+            } else {
+                Cookies.set("shoppingCartContent", JSON.stringify([...pre, newTicket]));
+                const buttonID = newTicket.seatRow + "_" + newTicket.seatNumber;
+                const button = document.getElementById(buttonID)!;
+                button.style.backgroundColor = 'green';
+                return [...pre, newTicket];
+            }
+        });
+    }
+
+    function isTicketNew(existing: wantedTicket[], ticket: wantedTicket) {
+        for (let i = 0; i < existing.length; i++) {
+            if( (existing[i].seatNumber === ticket.seatNumber)
+                && (existing[i].seatRow === ticket.seatRow)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     function firstTotal(): string {
@@ -141,9 +158,6 @@ function Booking() {
         let columnsAmount = 20;
         let columnsArray: JSX.Element[] = [<td>Reihe\Platz</td>];
 
-        for (let i = 1; i < columnsAmount + 1; i++) {
-            //columnsArray.push(<td>{i}</td>);
-        }
 
         let rowsAmount = 12;
         let rowsArray = [];
@@ -162,7 +176,7 @@ function Booking() {
                     seatPrice: seatTicket.seat.seatType.price.toFixed(2)
                 };
                 buttonId = i + '_' + j;
-                rowArray.push(<td><button id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</button> </td>)
+                rowArray.push(<td><Button id={buttonId} size = "small" onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
             }
             rowsArray.push(<tr>{rowArray}</tr>);
         }
@@ -230,7 +244,7 @@ function Booking() {
                     <Navbar />
                 </Col>
             </Row>
-            <Row id={"Content"}>
+            <Row className="Content-Row" id={"Content"}>
                 <Col span={6}>
                     <Image
                         width={200}
@@ -248,13 +262,13 @@ function Booking() {
                     <Title level={3}>FSK-Freigabe: {movieData.fsk}</Title>
                 </Col>
                 <Col span={12}>
-                    <table>
+                    <table className="seatingPlan">
                         <thead id={"columnHeaders"}>
                             <tr>
                                 {colheads}
                             </tr>
                         </thead>
-                        <tbody id={"seatPlanRows"}>{seatrows}</tbody>
+                        <tbody>{seatrows}</tbody>
                     </table>
                 </Col>
                 <Col span={6}>

@@ -137,7 +137,6 @@ function BookingConfirmation(){
                         };
                     setUserData(userInfo);
                 }
-
             ).catch(error =>{
                 console.log(error)
             });
@@ -186,6 +185,7 @@ function BookingConfirmation(){
                                     labelCol={{ span: 8 }}
                                     wrapperCol={{ span: 32 }}
                                     layout="horizontal"
+                                    disabled= {true}
                                 >
                                     <Form.Item label={"Vorname"}>
                                         <Input value={userData.firstName} />
