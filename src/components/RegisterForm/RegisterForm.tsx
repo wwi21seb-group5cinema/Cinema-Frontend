@@ -44,11 +44,16 @@ const Register: React.FC = () => {
         }
         fetch('http://localhost:8082/v1/register', options)
             .then(response => {
-                console.log(response.status);
                 if(response.status === 201){
-                    Cookies.set('isLoggedIn', 'true', { expires: 7 });
-                    navigate(-2 as To, { replace: true })
+                    navigate(-2 as To, { replace: true });
+                    return response.json();
+                }else{
+                    alert("Registrierung fehlgeschlagen");
                 }
+            })
+            .then(data =>{
+                Cookies.set('isLoggedIn', 'true', { expires: 7 });
+                Cookies.set('userID', data.id, { expires: 7 });
             })
             .catch(error =>{
                 console.log(error)
