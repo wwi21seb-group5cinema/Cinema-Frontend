@@ -1,0 +1,30 @@
+.app{
+    color: #61dafb;
+}
+
+.ant-row {
+    width: 100%;
+}
+
+.ant-col {
+    text-align: center;
+    overflow: auto;
+}
+
+#Header, #Footer {
+    height: 15vh;
+    max-height: 15vh;
+}
+
+#Content {
+    height: 85vh;
+    max-height: 85vh;
+}
+
+#splitContent {
+    height: 100%;
+}
+
+#personalInfoContainer, #paymentMethodContainer {
+    height: 50%;
+}
