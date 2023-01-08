@@ -1,6 +1,6 @@
 //import './Movie.css'
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Card, Col, ConfigProvider, Row, theme } from 'antd';
 import {Link} from "react-router-dom";
 
@@ -17,14 +17,25 @@ interface Props {
   imageUrl: string;
   title: string;
   description: string;
-  events: string;
+  events: any;
 }
 
 const Movie: React.FC<Props> = ({ imageUrl, title, description, events }) => {
 
+    const eventLink: React.ReactElement[] = [];
+    const [allEventLinks,setEventLinks] = useState<React.ReactElement[]>();
     function clickHandlerMovie(){
         window.location.href = '/MovieInfo'
     }
+
+    useEffect(()=>{
+        for(let i = 0; i<events.length;i++){
+            eventLink.push(
+                <Link to="Booking" state={{props: events[i].id}}><p>{events[i].eventDateTime}</p></Link>
+            )
+        }
+        setEventLinks(eventLink);
+    },[]);
 
     
 
@@ -44,12 +55,7 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events }) => {
             <h3>{title}</h3>
             <p>{description}</p>
             <ul>
-                <Link className="linkText" to="/Booking" state={{props: title}} >
-                    <li>{events}</li>
-                </Link>
-                <Link className="linkText" to="/Booking">
-                    <li>{events}</li>
-                </Link>
+                {allEventLinks}
             </ul>
             </Col>
         </Row>
