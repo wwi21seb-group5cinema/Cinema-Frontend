@@ -44,7 +44,7 @@ function Home(){
 
    useEffect( ()=>{
         fetchEventData();
-
+       // eslint-disable-next-line react-hooks/exhaustive-deps
     },[MovieData]);
 
 
