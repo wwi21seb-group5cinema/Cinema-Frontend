@@ -6,12 +6,12 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import Navbar from "../../components/Navbar/Navbar";
 function MovieInfo(){
 
-    const [data, setData] = useState(null);
-    const [title, setTitle] = useState(null);
+  
+    const [allMovieCards, setMovieCards] = useState<React.ReactElement[]>();
 
  
 
-    let MovieCards: React.ReactElement[] = []
+    const MovieCards: React.ReactElement[] = []
 
     useEffect(() => {
          fetch('http://localhost:8082/v1/movie/getAll')
@@ -19,26 +19,20 @@ function MovieInfo(){
          .then(data =>{
             for (let i=0; i<data.length; i++) {
                 console.log(data[i].genre);
-                MovieCards.push(<MovieCard imageUrl={""} title={data[i].name} description={"Cool film bla bla"} />)
-                
-                
+                MovieCards.push(<MovieCard imageUrl={""} title={data[i].name} description={"Cool film bla bla"} />)     
            }
-         
-           //const components = data.map(data =>(React.createElement(MyComponent, { key: , data: datum }, null)))
-          
+           setMovieCards(MovieCards);
         })
          .catch(error =>{
             console.log(error);
-         })
+        })
     }, []);
-
-    const allMovies = MovieCards.map((Card) => <li key={Card.id}> <MovieCard imageUrl={""} title={Card.name} description={"Cool film bla bla"} />)}
 
     return(
         <div className="app">
         <Navbar/>
         
-
+        {allMovieCards}
 
           {/* 
            <MovieCard imageUrl={""} title={"Avatar 2"} description={"Cool film bla bla"} />
