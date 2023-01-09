@@ -3,8 +3,10 @@ import {Table, Col, Row, Button, Modal, theme, ConfigProvider, Typography, Image
 import Navbar from "../../components/Navbar/Navbar";
 import React, {useState} from "react";
 import Cookies from "js-cookie";
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const { Title } = Typography;
+
 
 interface wantedTicket {
     seatDiscount: number;
@@ -16,6 +18,10 @@ interface wantedTicket {
 
 
 function Booking() {
+    const parameters = useLocation();
+    const eventID = parameters.state.props;
+    Cookies.set("EventID",eventID) ;
+    console.log(eventID);
 
     const columns = [
         {
@@ -64,12 +70,52 @@ function Booking() {
     const [seatPriceText, setSeatPriceText] = useState('11.00');
     const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
+
     function addTicket(newTicket: wantedTicket) {
         setContent((pre: wantedTicket[]) => {
-            updateTotal("add", newTicket);
-            Cookies.set("shoppingCartContent", JSON.stringify([...pre, newTicket]));
-            return [...pre, newTicket];
-            });
+            if(isTicketNew(pre, newTicket)===false) {
+                alert("Dieses Ticket befindet sich bereits in Ihrem Einkauf");
+                return [...pre];
+            } else {
+                Cookies.set("shoppingCartContent", JSON.stringify([...pre, newTicket]));
+                const buttonID = newTicket.seatRow + "_" + newTicket.seatNumber;
+                const button = document.getElementById(buttonID)!;
+                button.style.backgroundColor = 'green';
+                return [...pre, newTicket];
+            }
+        });
+        const data = [
+            {
+            eventID: eventID,
+            row: newTicket.seatRow,
+            place: newTicket.seatNumber
+        }
+        ]
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        }
+        fetch("http://localhost:8082/v1/booking/tempReserve",options)
+            .then(response=>{
+                if(response.ok){
+                    console.log("ticket reserviert");
+                }
+            }).catch(error =>{
+                console.log(error);
+        })
+
+
+    }
+
+    function isTicketNew(existing: wantedTicket[], ticket: wantedTicket) {
+        for (let i = 0; i < existing.length; i++) {
+            if( (existing[i].seatNumber === ticket.seatNumber)
+                && (existing[i].seatRow === ticket.seatRow)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     function firstTotal(): string {
@@ -106,17 +152,22 @@ function Booking() {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
             window.location.href = '/BookingConfirmation';
+
         }
     }
 
-    function getEventData() {
-        if(Cookies.get("eventInfo") === undefined) {
-            let eventInfo = require('./defaultEvent.json');
-            Cookies.set("eventInfo", JSON.stringify(eventInfo))
-            return eventInfo;
-        } else {
-            return JSON.parse(Cookies.get("eventInfo")!);
-        }
+     function getEventData() {
+         if(Cookies.get("eventInfo") === undefined) {
+             let eventInfo = require('./defaultEvent.json');
+             Cookies.set("eventInfo", JSON.stringify(eventInfo))
+             return eventInfo;
+         } else {
+             return JSON.parse(Cookies.get("eventInfo")!);
+         }
+
+
+
+
     }
 
     function getMovieData(eventInfo: any) {
@@ -162,7 +213,7 @@ function Booking() {
                     seatPrice: seatTicket.seat.seatType.price.toFixed(2)
                 };
                 buttonId = i + '_' + j;
-                rowArray.push(<td><button id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</button> </td>)
+                rowArray.push(<td><Button size={"small"} id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
             }
             rowsArray.push(<tr>{rowArray}</tr>);
         }
@@ -230,7 +281,7 @@ function Booking() {
                     <Navbar />
                 </Col>
             </Row>
-            <Row id={"Content"}>
+            <Row className={"Content-Row"}  id={"Content"}>
                 <Col span={6}>
                     <Image
                         width={200}
@@ -247,8 +298,8 @@ function Booking() {
                     </Title>
                     <Title level={3}>FSK-Freigabe: {movieData.fsk}</Title>
                 </Col>
-                <Col span={12}>
-                    <table>
+                <Col  span={12}>
+                    <table className="seatingPlan">
                         <thead id={"columnHeaders"}>
                             <tr>
                                 {colheads}

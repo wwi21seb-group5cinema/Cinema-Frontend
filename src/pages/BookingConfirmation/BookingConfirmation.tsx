@@ -1,8 +1,9 @@
 import "./BookingConfirmation.css";
 import {Table, Col, Row, Button, Form, Input, ConfigProvider, theme, Typography, Image, Collapse} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
+import {useLocation} from "react-router-dom";
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -19,6 +20,8 @@ interface Stammdaten {
 
 function BookingConfirmation(){
 
+
+
         if(Cookies.get("isLoggedIn") === "true") {
             //check authenticity of user login
         } else {
@@ -34,8 +37,10 @@ function BookingConfirmation(){
         cityName: '',
         email: ''
     });
+        useEffect(()=>{
+            getUserData();
+        },[]);
 
-    getUserData();
 
     const columns = [
         {
@@ -78,6 +83,32 @@ function BookingConfirmation(){
 
     function submitButtonClicked() {
         Cookies.remove("shoppingCartContent");
+        let postData = [];
+        for (let i = 0; i < content.length; i++) {
+            let postItem= {
+                "userID": Cookies.get("userId"),
+                "eventID": Cookies.get("EventID"),
+                "row": content[i].seatRow,
+                "place": content[i].seatNumber
+            };
+            postData.push(postItem);
+            //Ticket fest buchen fetch
+        }
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(postData),
+        }
+        fetch("http://localhost:8082/v1/booking/reserve",options)
+            .then(response=>{
+                if(response.ok){
+                    console.log("ticket gebucht");
+                }
+            }).catch(error =>{
+            console.log(error);
+        })
+
+
         window.location.href = '..';
     }
 
