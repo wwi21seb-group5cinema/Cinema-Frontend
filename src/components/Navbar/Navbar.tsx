@@ -1,14 +1,16 @@
 import "./Navbar.css"
 import Searchbar from "../../components/Searchbar/Searchbar";
 import {Link} from "react-router-dom";
-import MovieDBLogo from "../../images/MovieDBLogo.svg";
+import CinemaLogo from "../../images/CinemaLogo.png";
 
 
 function Navbar(){
     return(
 
         <nav className="navbar">
-            <img src={MovieDBLogo} alt="MovieDB"/>
+            <Link to="/">
+                <img src={CinemaLogo} alt="Cinema5"/>
+            </Link>
             <h3>
                 <Searchbar/>
             </h3>
