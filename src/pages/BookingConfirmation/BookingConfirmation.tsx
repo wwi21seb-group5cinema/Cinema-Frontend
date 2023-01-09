@@ -3,7 +3,7 @@ import {Table, Col, Row, Button, Form, Input, ConfigProvider, theme, Typography,
 import Navbar from "../../components/Navbar/Navbar";
 import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
-import {useLocation} from "react-router-dom";
+
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -86,7 +86,7 @@ function BookingConfirmation(){
         let postData = [];
         for (let i = 0; i < content.length; i++) {
             let postItem= {
-                "userID": Cookies.get("userId"),
+                "userID": Cookies.get("userID"),
                 "eventID": Cookies.get("EventID"),
                 "row": content[i].seatRow,
                 "place": content[i].seatNumber
@@ -101,6 +101,7 @@ function BookingConfirmation(){
         }
         fetch("http://localhost:8082/v1/booking/reserve",options)
             .then(response=>{
+                console.log(response.status);
                 if(response.ok){
                     console.log("ticket gebucht");
                 }
@@ -109,7 +110,7 @@ function BookingConfirmation(){
         })
 
 
-        window.location.href = '..';
+       // window.location.href = '..';
     }
 
     function changeButtonClicked() {

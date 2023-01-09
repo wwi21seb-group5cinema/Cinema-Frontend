@@ -35,7 +35,7 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events }) => {
             )
         }
         setEventLinks(eventLink);
-    },);
+    },[]);
 
 
 
