@@ -110,7 +110,7 @@ function BookingConfirmation(){
         })
 
 
-       // window.location.href = '..';
+        window.location.href = '..';
     }
 
     function changeButtonClicked() {
