@@ -15,6 +15,7 @@ interface wantedTicket {
     seatPrice: string;
     seatRow: number;
     seatType: string;
+    seatState: string;
 }
 
 interface MovieDataType {
@@ -31,7 +32,7 @@ interface MovieDataType {
     const parameters = useLocation();
     const eventID = parameters.state.props;
     const navigate = useNavigate();
-    let eventInfo = {};
+    let eventInfo:any = {};
     const initMovieData: MovieDataType = {
         imageData : "Loading",
         title: "Loading",
@@ -54,7 +55,7 @@ interface MovieDataType {
         getEventData().then(()=>{
             console.log(eventInfo);
             createTicketPlan();
-            getMovieData(eventInfo);
+            getMovieData();
         })
     },[]);
 
@@ -176,9 +177,7 @@ interface MovieDataType {
         if(content.length===0) {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
-            navigate('/BookingConfirmation',{state:{eventID:eventID}});
-            window.location.href = '/BookingConfirmation';
-
+            navigate('/BookingConfirmation',{state:{eventInfo:eventInfo}});
         }
     }
 
@@ -188,7 +187,7 @@ interface MovieDataType {
         eventInfo =  await response.json();
     }
 
-    function getMovieData(eventInfo: any) {
+    function getMovieData() {
         const year: number = eventInfo.eventDay[0];
         const month: number = eventInfo.eventDay[1];
         const day: number = eventInfo.eventDay[2];
@@ -204,18 +203,14 @@ interface MovieDataType {
     }
 
      function createTicketPlan() {
-        console.log("create ticket plan");
 
-        let columnsAmount = 20;
-        let columnsArray: JSX.Element[] = [<td>Reihe\Platz</td>];
 
-        for (let i = 1; i < columnsAmount + 1; i++) {
-            //columnsArray.push(<td>{i}</td>);
-        }
 
-        let rowsAmount = 12;
+        let rowsAmount = eventInfo.cinemaHall.seatingPlan.rows;
         let rowsArray = [];
         let rowArray = [];
+        let columnsAmount = eventInfo.cinemaHall.seatingPlan.seats.length / rowsAmount;
+        let columnsArray: JSX.Element[] = [<td>Reihe\Platz</td>];
         let buttonId = '';
         for (let i = 1; i < rowsAmount + 1; i++) {
             rowArray = [<td>{i}</td>];
@@ -227,10 +222,15 @@ interface MovieDataType {
                     seatRow: i,
                     seatType: seatTicket.seat.seatType.name,
                     seatDiscount: 0,
-                    seatPrice: seatTicket.seat.seatType.price.toFixed(2)
+                    seatPrice: seatTicket.seat.seatType.price.toFixed(2),
+                    seatState: seatTicket.seat.seatState
                 };
                 buttonId = i + '_' + j;
-                rowArray.push(<td><Button size={"small"} id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
+                let color:string = "black";
+                if(newTicket.seatState === "RESERVED"){
+                    color = "red";
+                }
+                rowArray.push(<td><Button style={{background : color}} size={"small"} id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
             }
             rowsArray.push(<tr>{rowArray}</tr>);
         }
@@ -272,7 +272,8 @@ interface MovieDataType {
             seatRow: parseInt(document.getElementById("rowNumberSpan")!.innerHTML),
             seatType: document.getElementById("seatTypeSpan")!.innerHTML,
             seatDiscount: discountValue,
-            seatPrice: newPrice.toFixed(2)
+            seatPrice: newPrice.toFixed(2),
+            seatState: "TEMPORAL_RESERVED"
         };
         addTicket(newTicket);
         setIsModalOpen(false);
