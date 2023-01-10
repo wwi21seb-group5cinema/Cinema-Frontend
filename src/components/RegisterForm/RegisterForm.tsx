@@ -4,6 +4,7 @@ import "./RegisterForm.css";
 import {To, useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
+const API_URL = process.env.REACT_APP_API_URL;
 
 const formItemLayout = {
     labelCol: {
@@ -42,7 +43,7 @@ const Register: React.FC = () => {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(values),
         }
-        fetch('http://localhost:8082/v1/register', options)
+        fetch(API_URL + '/register', options)
             .then(response => {
                 if(response.status === 201){
                     navigate(-2 as To, { replace: true });
