@@ -1,9 +1,10 @@
 import "./Booking.css";
 import {Table, Col, Row, Button, Modal, theme, ConfigProvider, Typography, Image} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import {useLocation, useNavigate} from 'react-router-dom';
+
 
 const { Title } = Typography;
 
@@ -16,12 +17,48 @@ interface wantedTicket {
     seatType: string;
 }
 
+interface MovieDataType {
+    imageData: any
+    title: any
+    fsk: any
+    eventDate: any
+}
 
-function Booking() {
+
+ function Booking() {
+
+
     const parameters = useLocation();
     const eventID = parameters.state.props;
-    Cookies.set("EventID",eventID) ;
-    console.log(eventID);
+    const navigate = useNavigate();
+    let eventInfo = {};
+    const initMovieData: MovieDataType = {
+        imageData : "Loading",
+        title: "Loading",
+        fsk: "Loading",
+        eventDate: new Date(Date.UTC(0, 0, 0, 0, 0))
+
+    };
+    const [movieData,setMovieData] = useState<MovieDataType>(initMovieData);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [seatNumberText, setSeatNumberText] = useState(1);
+    const [rowNumberText, setRowNumberText] = useState(1);
+    const [seatTypeText, setSeatTypeText] = useState('loge');
+    const [seatPriceText, setSeatPriceText] = useState('11.00');
+    const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    const [colheads,setColheads] = useState<JSX.Element[]>([]);
+    const [seatrows,setSeatrows] = useState<any[]>([]);
+
+
+    useEffect(() => {
+        getEventData().then(()=>{
+            console.log(eventInfo);
+            createTicketPlan();
+            getMovieData(eventInfo);
+        })
+    },[]);
+
+
 
     const columns = [
         {
@@ -57,23 +94,11 @@ function Booking() {
 
     const [content, setContent] = useState(JSON.parse(Cookies.get("shoppingCartContent") as string));
 
-    let colheads: JSX.Element[], seatrows: any[];
-    [colheads, seatrows] = createTicketPlan();
-
-    const eventInfo = getEventData();
-    const movieData = getMovieData(eventInfo);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [seatNumberText, setSeatNumberText] = useState(1);
-    const [rowNumberText, setRowNumberText] = useState(1);
-    const [seatTypeText, setSeatTypeText] = useState('loge');
-    const [seatPriceText, setSeatPriceText] = useState('11.00');
-    const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
 
     function addTicket(newTicket: wantedTicket) {
         setContent((pre: wantedTicket[]) => {
-            if(isTicketNew(pre, newTicket)===false) {
+            if(!isTicketNew(pre, newTicket)) {
                 alert("Dieses Ticket befindet sich bereits in Ihrem Einkauf");
                 return [...pre];
             } else {
@@ -151,23 +176,16 @@ function Booking() {
         if(content.length===0) {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
+            navigate('/BookingConfirmation',{state:{eventID:eventID}});
             window.location.href = '/BookingConfirmation';
 
         }
     }
 
-     function getEventData() {
-         if(Cookies.get("eventInfo") === undefined) {
-             let eventInfo = require('./defaultEvent.json');
-             Cookies.set("eventInfo", JSON.stringify(eventInfo))
-             return eventInfo;
-         } else {
-             return JSON.parse(Cookies.get("eventInfo")!);
-         }
 
-
-
-
+    async function getEventData(){
+        const response = await fetch("http://localhost:8082/v1/event/get?id=" + eventID);
+        eventInfo =  await response.json();
     }
 
     function getMovieData(eventInfo: any) {
@@ -176,18 +194,17 @@ function Booking() {
         const day: number = eventInfo.eventDay[2];
         const hour: number = eventInfo.eventTime[0];
         const minute: number = eventInfo.eventTime[1];
-        const second: number = 0;
-        return {
+        setMovieData( {
             imageData: eventInfo.movie.image.imageData,
             title: eventInfo.movie.name,
             fsk: eventInfo.movie.fsk,
-            eventDate: new Date(Date.UTC(year, month, day, hour, minute, second))
-        }
+            eventDate: new Date(Date.UTC(year, month, day, hour, minute))
+        })
+
     }
 
-    function createTicketPlan() {
-
-        let eventInfo: any = getEventData();
+     function createTicketPlan() {
+        console.log("create ticket plan");
 
         let columnsAmount = 20;
         let columnsArray: JSX.Element[] = [<td>Reihe\Platz</td>];
@@ -217,7 +234,8 @@ function Booking() {
             }
             rowsArray.push(<tr>{rowArray}</tr>);
         }
-        return [columnsArray, rowsArray];
+        setColheads(columnsArray,);
+        setSeatrows(rowsArray);
     }
 
     function getSeatTicket(eventInfo: any, row: number, place: number) {

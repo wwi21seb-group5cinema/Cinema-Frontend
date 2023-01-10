@@ -3,6 +3,7 @@ import {Table, Col, Row, Button, Form, Input, ConfigProvider, theme, Typography,
 import Navbar from "../../components/Navbar/Navbar";
 import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
+import {useLocation} from "react-router-dom";
 
 
 const { Title } = Typography;
@@ -20,6 +21,8 @@ interface Stammdaten {
 
 function BookingConfirmation(){
 
+    const params = useLocation();
+    console.log(params);
 
 
         if(Cookies.get("isLoggedIn") === "true") {
@@ -103,14 +106,16 @@ function BookingConfirmation(){
             .then(response=>{
                 console.log(response.status);
                 if(response.ok){
-                    console.log("ticket gebucht");
+                    alert("ticket gebucht");
+                }else{
+                    alert("fehler bei buchung");
                 }
             }).catch(error =>{
             console.log(error);
         })
 
 
-        window.location.href = '..';
+       // window.location.href = '..';
     }
 
     function changeButtonClicked() {
@@ -245,7 +250,7 @@ function BookingConfirmation(){
                             <Row id={"paymentMethodContainer"}>
                                 <p><Title level={2}>Zahlungsart wählen:</Title></p>
                                 <Collapse accordion defaultActiveKey={1}>
-                                    <Panel header={"Bahrzahlung"} key={1}>
+                                    <Panel header={"Barzahlung"} key={1}>
                                         <p>{"Sie wollen an der Kasse bezahlen."}</p>
                                     </Panel>
                                     <Panel header={"PayPal"} key={2}>

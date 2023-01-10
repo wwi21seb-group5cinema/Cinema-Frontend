@@ -28,15 +28,15 @@ function Home(){
             try {
                 const response = await fetch('http://localhost:8082/v1/event/get?movieId=' + MovieData[i].id)
                 if(!response.ok){
-                    console.log("error");
+                    console.log("Fehler: " + response.ok);
                 }
                 const eventData = await response.json();
                 console.log(eventData);
                 Movies.push(<Movie imageUrl={""} title={MovieData[i].name} description={"Cool film bla bla"}
                                    events={eventData}/>);
             }
-            catch{
-                console.log("error");
+            catch(error){
+                console.log(error);
             }
         }
         setMovies(Movies);
