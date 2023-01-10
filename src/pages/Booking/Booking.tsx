@@ -2,12 +2,7 @@ import "./Booking.css";
 import {Table, Col, Row, Button, Modal, theme, ConfigProvider, Typography, Image} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
 import React, {useEffect, useState} from "react";
-import Cookies from "js-cookie";
 import {useLocation, useNavigate} from 'react-router-dom';
-
-
-const { Title } = Typography;
-
 
 interface wantedTicket {
     seatDiscount: number;
@@ -24,7 +19,8 @@ interface MovieDataType {
     fsk: any
     eventDate: any
 }
-
+let eventInfo:any ;
+const { Title } = Typography;
 
  function Booking() {
 
@@ -32,7 +28,6 @@ interface MovieDataType {
     const parameters = useLocation();
     const eventID = parameters.state.props;
     const navigate = useNavigate();
-    let eventInfo:any = {};
     const initMovieData: MovieDataType = {
         imageData : "Loading",
         title: "Loading",
@@ -40,23 +35,24 @@ interface MovieDataType {
         eventDate: new Date(Date.UTC(0, 0, 0, 0, 0))
 
     };
+    const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
     const [movieData,setMovieData] = useState<MovieDataType>(initMovieData);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [seatNumberText, setSeatNumberText] = useState(1);
     const [rowNumberText, setRowNumberText] = useState(1);
     const [seatTypeText, setSeatTypeText] = useState('loge');
     const [seatPriceText, setSeatPriceText] = useState('11.00');
-    const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
     const [colheads,setColheads] = useState<JSX.Element[]>([]);
     const [seatrows,setSeatrows] = useState<any[]>([]);
+    const [content, setContent] = useState<any[]>([]);
 
 
     useEffect(() => {
         getEventData().then(()=>{
-            console.log(eventInfo);
             createTicketPlan();
             getMovieData();
         })
+        console.log("movieinfo effect funktioniert");
     },[]);
 
 
@@ -89,11 +85,6 @@ interface MovieDataType {
         }
     ];
 
-    if (Cookies.get("shoppingCartContent") === undefined) {
-        Cookies.set("shoppingCartContent", "[]");
-    }
-
-    const [content, setContent] = useState(JSON.parse(Cookies.get("shoppingCartContent") as string));
 
 
 
@@ -103,7 +94,6 @@ interface MovieDataType {
                 alert("Dieses Ticket befindet sich bereits in Ihrem Einkauf");
                 return [...pre];
             } else {
-                Cookies.set("shoppingCartContent", JSON.stringify([...pre, newTicket]));
                 const buttonID = newTicket.seatRow + "_" + newTicket.seatNumber;
                 const button = document.getElementById(buttonID)!;
                 button.style.backgroundColor = 'green';
@@ -154,7 +144,7 @@ interface MovieDataType {
             + newTotal.toFixed(2);
     }
 
-    function updateTotal(action: string, newTicket: wantedTicket) {
+    /* function updateTotal(action: string, newTicket: wantedTicket) {
         let newTotal: number = 0;
         for (let i = 0; i< content.length; i++)
         {
@@ -171,13 +161,13 @@ interface MovieDataType {
         document.getElementsByClassName("ant-table-footer")[0].innerHTML
             = "Gesamtpreis in €: "
             + newTotal.toFixed(2);
-    }
+    } */
 
     function buyButtonClicked(){
         if(content.length===0) {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
-            navigate('/BookingConfirmation',{state:{eventInfo:eventInfo}});
+           navigate('/BookingConfirmation',{state:{eventInfo:eventInfo, movieData:movieData, content:content}});
         }
     }
 
@@ -278,7 +268,9 @@ interface MovieDataType {
         addTicket(newTicket);
         setIsModalOpen(false);
     }
-
+    function cancelButtonClicked(){
+        window.location.href = "..";
+    }
     function handleCancel() {
         setIsModalOpen(false);
     }
@@ -335,6 +327,7 @@ interface MovieDataType {
                            scroll={{ x: 230, y: 400}}
                            footer={firstTotal}
                     />
+                    <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                     <Button onClick={buyButtonClicked}>Tickets kaufen</Button>
                 </Col>
             </Row>

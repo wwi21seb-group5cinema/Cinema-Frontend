@@ -20,26 +20,18 @@ interface Stammdaten {
 }
 
 function BookingConfirmation(){
+    const props = useLocation();
 
-    const params = useLocation();
-    console.log(params);
-
+    const eventInfo = props.state.eventInfo;
+    const movieData = props.state.movieData;
+    const content = props.state.content;
 
         if(Cookies.get("isLoggedIn") === "true") {
-            //check authenticity of user login
         } else {
             window.location.href = '/Login';
         }
 
-    const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
-        street: '',
-        houseNumber: '',
-        plz: '',
-        cityName: '',
-        email: ''
-    });
+    const [userData, setUserData] = useState<any>({});
         useEffect(()=>{
             getUserData();
         },[]);
@@ -73,29 +65,19 @@ function BookingConfirmation(){
         }
     ];
 
-    if (Cookies.get("shoppingCartContent") === undefined) {
-        Cookies.set("shoppingCartContent", "[]");
-    }
-
-    const content = JSON.parse(Cookies.get("shoppingCartContent") as string);
-
-    const eventInfo = getEventData();
-    const movieData = getMovieData(eventInfo);
-
     const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
     function submitButtonClicked() {
-        Cookies.remove("shoppingCartContent");
+
         let postData = [];
         for (let i = 0; i < content.length; i++) {
             let postItem= {
                 "userID": Cookies.get("userID"),
-                "eventID": Cookies.get("EventID"),
+                "eventID": eventInfo.id,
                 "row": content[i].seatRow,
                 "place": content[i].seatNumber
             };
             postData.push(postItem);
-            //Ticket fest buchen fetch
         }
         const options = {
             method: 'POST',
@@ -111,15 +93,14 @@ function BookingConfirmation(){
                     alert("fehler bei buchung");
                 }
             }).catch(error =>{
-            console.log(error);
-        })
-
-
-       // window.location.href = '..';
+                console.log(error);
+            }
+        )
+        window.location.href = '..';
     }
 
-    function changeButtonClicked() {
-        window.location.href = '/Booking';
+    function cancelButtonClicked() {
+        window.location.href = '..';
     }
 
     function calcTotal(): string {
@@ -130,31 +111,6 @@ function BookingConfirmation(){
         }
         return "Gesamtpreis in €: "
             + newTotal.toFixed(2);
-    }
-
-    function getEventData() {
-        if(Cookies.get("eventInfo") === undefined) {
-            let eventInfo = require('../Booking/defaultEvent.json');
-            Cookies.set("eventInfo", JSON.stringify(eventInfo));
-            return eventInfo;
-        } else {
-            return JSON.parse(Cookies.get("eventInfo")!);
-        }
-    }
-
-    function getMovieData(eventInfo: any) {
-        const year: number = eventInfo.eventDay[0];
-        const month: number = eventInfo.eventDay[1];
-        const day: number = eventInfo.eventDay[2];
-        const hour: number = eventInfo.eventTime[0];
-        const minute: number = eventInfo.eventTime[1];
-        const second: number = 0;
-        return {
-            imageData: eventInfo.movie.image.imageData,
-            title: eventInfo.movie.name,
-            fsk: eventInfo.movie.fsk,
-            eventDate: new Date(Date.UTC(year, month, day, hour, minute, second))
-        }
     }
 
     function getUserData() {
@@ -274,7 +230,7 @@ function BookingConfirmation(){
                                scroll={{ x: 230, y: 400}}
                                footer={calcTotal}
                         />
-                        <Button onClick={changeButtonClicked}>Bearbeiten</Button>
+                        <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                         <Button onClick={submitButtonClicked}>Bestätigen und buchen</Button>
                     </Col>
                 </Row>
