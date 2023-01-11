@@ -173,8 +173,13 @@ const { Title } = Typography;
 
 
     async function getEventData(){
-        const response = await fetch("http://localhost:8082/v1/event/get?id=" + eventID);
-        eventInfo =  await response.json();
+        try {
+            const response = await fetch("http://localhost:8082/v1/event/get?id=" + eventID);
+            eventInfo =  await response.json();
+        }catch{
+            console.log("error while fetching event data");
+        }
+
     }
 
     function getMovieData() {
@@ -193,8 +198,6 @@ const { Title } = Typography;
     }
 
      function createTicketPlan() {
-
-
 
         let rowsAmount = eventInfo.cinemaHall.seatingPlan.rows;
         let rowsArray = [];
@@ -217,10 +220,12 @@ const { Title } = Typography;
                 };
                 buttonId = i + '_' + j;
                 let color:string = "black";
-                if(newTicket.seatState === "RESERVED"){
+                let booked:boolean = false;
+                if(newTicket.seatState === "RESERVED" || newTicket.seatState === "TEMPORAL_RESERVED"){
                     color = "red";
+                    booked = true;
                 }
-                rowArray.push(<td><Button style={{background : color}} size={"small"} id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
+                rowArray.push(<td><Button style={{background : color}} disabled={booked} size={"small"} id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
             }
             rowsArray.push(<tr>{rowArray}</tr>);
         }

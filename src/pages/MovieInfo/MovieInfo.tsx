@@ -34,12 +34,6 @@ function MovieInfo(){
 
             {allMovieCards}
 
-            {/*
-           <MovieCard imageUrl={""} title={"Avatar 2"} description={"Cool film bla bla"} />
-            <MovieCard imageUrl={""} title={"Avatar 2"} description={"Cool film bla bla"} />
-            <MovieCard imageUrl={""} title={"Avatar 2"} description={"Cool film bla bla"} />
-            <MovieCard imageUrl={""} title={"Avatar 2"} description={"Cool film bla bla"} />
-         */}
         </div>
     );
 }
