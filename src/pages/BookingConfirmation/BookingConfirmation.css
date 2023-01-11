@@ -8,6 +8,7 @@
 
 .ant-col {
     text-align: center;
+    align-items: center;
     overflow: auto;
 }
 

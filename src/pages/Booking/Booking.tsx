@@ -1,10 +1,8 @@
 import "./Booking.css";
 import {Table, Col, Row, Button, Modal, theme, ConfigProvider, Typography, Image} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
-import React, {useState} from "react";
-import Cookies from "js-cookie";
-
-const { Title } = Typography;
+import React, {useEffect, useState} from "react";
+import {useLocation, useNavigate} from 'react-router-dom';
 
 interface wantedTicket {
     seatDiscount: number;
@@ -12,10 +10,52 @@ interface wantedTicket {
     seatPrice: string;
     seatRow: number;
     seatType: string;
+    seatState: string;
 }
 
+interface MovieDataType {
+    imageData: any
+    title: any
+    fsk: any
+    eventDate: any
+}
+let eventInfo:any ;
+const { Title } = Typography;
 
-function Booking() {
+ function Booking() {
+
+
+    const parameters = useLocation();
+    const eventID = parameters.state.props;
+    const navigate = useNavigate();
+    const initMovieData: MovieDataType = {
+        imageData : "Loading",
+        title: "Loading",
+        fsk: "Loading",
+        eventDate: new Date(Date.UTC(0, 0, 0, 0, 0))
+
+    };
+    const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+    const [movieData,setMovieData] = useState<MovieDataType>(initMovieData);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [seatNumberText, setSeatNumberText] = useState(1);
+    const [rowNumberText, setRowNumberText] = useState(1);
+    const [seatTypeText, setSeatTypeText] = useState('loge');
+    const [seatPriceText, setSeatPriceText] = useState('11.00');
+    const [colheads,setColheads] = useState<JSX.Element[]>([]);
+    const [seatrows,setSeatrows] = useState<any[]>([]);
+    const [content, setContent] = useState<any[]>([]);
+
+
+    useEffect(() => {
+        getEventData().then(()=>{
+            createTicketPlan();
+            getMovieData();
+        })
+        console.log("movieinfo effect funktioniert");
+    },[]);
+
+
 
     const columns = [
         {
@@ -45,31 +85,53 @@ function Booking() {
         }
     ];
 
-    if (Cookies.get("shoppingCartContent") === undefined) {
-        Cookies.set("shoppingCartContent", "[]");
-    }
 
-    const [content, setContent] = useState(JSON.parse(Cookies.get("shoppingCartContent") as string));
 
-    let colheads: JSX.Element[], seatrows: any[];
-    [colheads, seatrows] = createTicketPlan();
-
-    const eventInfo = getEventData();
-    const movieData = getMovieData(eventInfo);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [seatNumberText, setSeatNumberText] = useState(1);
-    const [rowNumberText, setRowNumberText] = useState(1);
-    const [seatTypeText, setSeatTypeText] = useState('loge');
-    const [seatPriceText, setSeatPriceText] = useState('11.00');
-    const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
     function addTicket(newTicket: wantedTicket) {
         setContent((pre: wantedTicket[]) => {
-            updateTotal("add", newTicket);
-            Cookies.set("shoppingCartContent", JSON.stringify([...pre, newTicket]));
-            return [...pre, newTicket];
-            });
+            if(!isTicketNew(pre, newTicket)) {
+                alert("Dieses Ticket befindet sich bereits in Ihrem Einkauf");
+                return [...pre];
+            } else {
+                const buttonID = newTicket.seatRow + "_" + newTicket.seatNumber;
+                const button = document.getElementById(buttonID)!;
+                button.style.backgroundColor = 'green';
+                return [...pre, newTicket];
+            }
+        });
+        const data = [
+            {
+            eventID: eventID,
+            row: newTicket.seatRow,
+            place: newTicket.seatNumber
+        }
+        ]
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        }
+        fetch("http://localhost:8082/v1/booking/tempReserve",options)
+            .then(response=>{
+                if(response.ok){
+                    console.log("ticket reserviert");
+                }
+            }).catch(error =>{
+                console.log(error);
+        })
+
+
+    }
+
+    function isTicketNew(existing: wantedTicket[], ticket: wantedTicket) {
+        for (let i = 0; i < existing.length; i++) {
+            if( (existing[i].seatNumber === ticket.seatNumber)
+                && (existing[i].seatRow === ticket.seatRow)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     function firstTotal(): string {
@@ -82,7 +144,7 @@ function Booking() {
             + newTotal.toFixed(2);
     }
 
-    function updateTotal(action: string, newTicket: wantedTicket) {
+    /* function updateTotal(action: string, newTicket: wantedTicket) {
         let newTotal: number = 0;
         for (let i = 0; i< content.length; i++)
         {
@@ -99,55 +161,49 @@ function Booking() {
         document.getElementsByClassName("ant-table-footer")[0].innerHTML
             = "Gesamtpreis in €: "
             + newTotal.toFixed(2);
-    }
+    } */
 
     function buyButtonClicked(){
         if(content.length===0) {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
-            window.location.href = '/BookingConfirmation';
+           navigate('/BookingConfirmation',{state:{eventInfo:eventInfo, movieData:movieData, content:content}});
         }
     }
 
-    function getEventData() {
-        if(Cookies.get("eventInfo") === undefined) {
-            let eventInfo = require('./defaultEvent.json');
-            Cookies.set("eventInfo", JSON.stringify(eventInfo))
-            return eventInfo;
-        } else {
-            return JSON.parse(Cookies.get("eventInfo")!);
+
+    async function getEventData(){
+        try {
+            const response = await fetch("http://localhost:8082/v1/event/get?id=" + eventID);
+            eventInfo =  await response.json();
+        }catch{
+            console.log("error while fetching event data");
         }
+
     }
 
-    function getMovieData(eventInfo: any) {
+    function getMovieData() {
         const year: number = eventInfo.eventDay[0];
         const month: number = eventInfo.eventDay[1];
         const day: number = eventInfo.eventDay[2];
         const hour: number = eventInfo.eventTime[0];
         const minute: number = eventInfo.eventTime[1];
-        const second: number = 0;
-        return {
+        setMovieData( {
             imageData: eventInfo.movie.image.imageData,
             title: eventInfo.movie.name,
             fsk: eventInfo.movie.fsk,
-            eventDate: new Date(Date.UTC(year, month, day, hour, minute, second))
-        }
+            eventDate: new Date(Date.UTC(year, month, day, hour, minute))
+        })
+
     }
 
-    function createTicketPlan() {
+     function createTicketPlan() {
 
-        let eventInfo: any = getEventData();
-
-        let columnsAmount = 20;
-        let columnsArray: JSX.Element[] = [<td>Reihe\Platz</td>];
-
-        for (let i = 1; i < columnsAmount + 1; i++) {
-            //columnsArray.push(<td>{i}</td>);
-        }
-
-        let rowsAmount = 12;
+        let rowsAmount = eventInfo.cinemaHall.seatingPlan.rows;
         let rowsArray = [];
         let rowArray = [];
+        let columnsAmount = eventInfo.cinemaHall.seatingPlan.seats.length / rowsAmount;
+        let columnsArray: JSX.Element[] = [<td>Reihe\Platz</td>];
         let buttonId = '';
         for (let i = 1; i < rowsAmount + 1; i++) {
             rowArray = [<td>{i}</td>];
@@ -159,14 +215,22 @@ function Booking() {
                     seatRow: i,
                     seatType: seatTicket.seat.seatType.name,
                     seatDiscount: 0,
-                    seatPrice: seatTicket.seat.seatType.price.toFixed(2)
+                    seatPrice: seatTicket.seat.seatType.price.toFixed(2),
+                    seatState: seatTicket.seat.seatState
                 };
                 buttonId = i + '_' + j;
-                rowArray.push(<td><button id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</button> </td>)
+                let color:string = "black";
+                let booked:boolean = false;
+                if(newTicket.seatState === "RESERVED" || newTicket.seatState === "TEMPORAL_RESERVED"){
+                    color = "red";
+                    booked = true;
+                }
+                rowArray.push(<td><Button style={{background : color}} disabled={booked} size={"small"} id={buttonId} onClick={() => ticketButtonClicked(newTicket)}>{j}</Button> </td>)
             }
             rowsArray.push(<tr>{rowArray}</tr>);
         }
-        return [columnsArray, rowsArray];
+        setColheads(columnsArray,);
+        setSeatrows(rowsArray);
     }
 
     function getSeatTicket(eventInfo: any, row: number, place: number) {
@@ -203,12 +267,15 @@ function Booking() {
             seatRow: parseInt(document.getElementById("rowNumberSpan")!.innerHTML),
             seatType: document.getElementById("seatTypeSpan")!.innerHTML,
             seatDiscount: discountValue,
-            seatPrice: newPrice.toFixed(2)
+            seatPrice: newPrice.toFixed(2),
+            seatState: "TEMPORAL_RESERVED"
         };
         addTicket(newTicket);
         setIsModalOpen(false);
     }
-
+    function cancelButtonClicked(){
+        window.location.href = "..";
+    }
     function handleCancel() {
         setIsModalOpen(false);
     }
@@ -230,7 +297,7 @@ function Booking() {
                     <Navbar />
                 </Col>
             </Row>
-            <Row id={"Content"}>
+            <Row className={"Content-Row"}  id={"Content"}>
                 <Col span={6}>
                     <Image
                         width={200}
@@ -247,8 +314,8 @@ function Booking() {
                     </Title>
                     <Title level={3}>FSK-Freigabe: {movieData.fsk}</Title>
                 </Col>
-                <Col span={12}>
-                    <table>
+                <Col  span={12}>
+                    <table className="seatingPlan">
                         <thead id={"columnHeaders"}>
                             <tr>
                                 {colheads}
@@ -265,6 +332,7 @@ function Booking() {
                            scroll={{ x: 230, y: 400}}
                            footer={firstTotal}
                     />
+                    <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                     <Button onClick={buyButtonClicked}>Tickets kaufen</Button>
                 </Col>
             </Row>
