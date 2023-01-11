@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import {useLocation} from "react-router-dom";
 
-
+const API_URL = process.env.REACT_APP_API_URL;
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -84,7 +84,7 @@ function BookingConfirmation(){
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(postData),
         }
-        fetch("http://localhost:8082/v1/booking/reserve",options)
+        fetch(API_URL + "/booking/reserve",options)
             .then(response=>{
                 console.log(response.status);
                 if(response.ok){
@@ -116,7 +116,7 @@ function BookingConfirmation(){
     function getUserData() {
         if(!(Cookies.get("userID") === undefined)) {
             const userID = Cookies.get("userID");
-            fetch("http://localhost:8082/v1/user/" + userID)
+            fetch(API_URL + "/user/" + userID)
                 .then( response => response.json()
                 ).then( data => {
                     const userInfo: Stammdaten = {
