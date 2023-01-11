@@ -4,6 +4,8 @@ import {Button, ConfigProvider, Form, Input, theme} from 'antd';
 import {Link, useNavigate, To} from "react-router-dom";
 import Cookies from "js-cookie";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 const LoginForm: React.FC = () => {
 
@@ -14,7 +16,7 @@ const LoginForm: React.FC = () => {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(values),
         }
-        fetch('http://localhost:8082/v1/login', options)
+        fetch(API_URL + '/login', options)
             .then(response => {
                 if(response.status === 200){
                     navigate(-1 as To,{replace: true});

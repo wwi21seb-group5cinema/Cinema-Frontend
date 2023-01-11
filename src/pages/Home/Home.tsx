@@ -5,6 +5,8 @@ import "./Home.css"
 import Navbar from "../../components/Navbar/Navbar";
 import MovieCarousel from "../../components/MovieCarousel/MovieCarousel";
 import React, { useEffect, useState } from "react";
+
+const API_URL = process.env.REACT_APP_API_URL;
 function Home(){
 
     const [allMovies, setMovies] = useState<React.ReactElement[]>([]);
@@ -13,7 +15,7 @@ function Home(){
     const Movies: React.ReactElement[] = []
 
     useEffect(() => {
-        fetch('http://localhost:8082/v1/movie/getAll')
+        fetch(API_URL + "/movie/getAll")
             .then(response => response.json())
             .then(movieData =>{
                 setMovieData(movieData);
@@ -26,7 +28,7 @@ function Home(){
     async function fetchEventData(){
         for (let i=0; i<MovieData.length; i++) {
             try {
-                const response = await fetch('http://localhost:8082/v1/event/get?movieId=' + MovieData[i].id)
+                const response = await fetch(API_URL + "/event/get?movieId=" + MovieData[i].id)
                 if(!response.ok){
                     console.log("Fehler: " + response.ok);
                 }
