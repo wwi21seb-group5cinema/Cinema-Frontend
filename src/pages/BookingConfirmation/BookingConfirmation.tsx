@@ -1,8 +1,10 @@
 import "./BookingConfirmation.css";
 import {Table, Col, Row, Button, Form, Input, ConfigProvider, theme, Typography, Image, Collapse} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
+import {useLocation} from "react-router-dom";
+
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -18,24 +20,22 @@ interface Stammdaten {
 }
 
 function BookingConfirmation(){
+    const props = useLocation();
+
+    const eventInfo = props.state.eventInfo;
+    const movieData = props.state.movieData;
+    const content = props.state.content;
 
         if(Cookies.get("isLoggedIn") === "true") {
-            //check authenticity of user login
         } else {
             window.location.href = '/Login';
         }
 
-    const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
-        street: '',
-        houseNumber: '',
-        plz: '',
-        cityName: '',
-        email: ''
-    });
+    const [userData, setUserData] = useState<any>({});
+        useEffect(()=>{
+            getUserData();
+        },[]);
 
-    getUserData();
 
     const columns = [
         {
@@ -65,24 +65,42 @@ function BookingConfirmation(){
         }
     ];
 
-    if (Cookies.get("shoppingCartContent") === undefined) {
-        Cookies.set("shoppingCartContent", "[]");
-    }
-
-    const content = JSON.parse(Cookies.get("shoppingCartContent") as string);
-
-    const eventInfo = getEventData();
-    const movieData = getMovieData(eventInfo);
-
     const dateOptions: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
     function submitButtonClicked() {
-        Cookies.remove("shoppingCartContent");
+
+        let postData = [];
+        for (let i = 0; i < content.length; i++) {
+            let postItem= {
+                "userID": Cookies.get("userID"),
+                "eventID": eventInfo.id,
+                "row": content[i].seatRow,
+                "place": content[i].seatNumber
+            };
+            postData.push(postItem);
+        }
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(postData),
+        }
+        fetch("http://localhost:8082/v1/booking/reserve",options)
+            .then(response=>{
+                console.log(response.status);
+                if(response.ok){
+                    alert("ticket gebucht");
+                }else{
+                    alert("fehler bei buchung");
+                }
+            }).catch(error =>{
+                console.log(error);
+            }
+        )
         window.location.href = '..';
     }
 
-    function changeButtonClicked() {
-        window.location.href = '/Booking';
+    function cancelButtonClicked() {
+        window.location.href = '..';
     }
 
     function calcTotal(): string {
@@ -93,31 +111,6 @@ function BookingConfirmation(){
         }
         return "Gesamtpreis in €: "
             + newTotal.toFixed(2);
-    }
-
-    function getEventData() {
-        if(Cookies.get("eventInfo") === undefined) {
-            let eventInfo = require('../Booking/defaultEvent.json');
-            Cookies.set("eventInfo", JSON.stringify(eventInfo));
-            return eventInfo;
-        } else {
-            return JSON.parse(Cookies.get("eventInfo")!);
-        }
-    }
-
-    function getMovieData(eventInfo: any) {
-        const year: number = eventInfo.eventDay[0];
-        const month: number = eventInfo.eventDay[1];
-        const day: number = eventInfo.eventDay[2];
-        const hour: number = eventInfo.eventTime[0];
-        const minute: number = eventInfo.eventTime[1];
-        const second: number = 0;
-        return {
-            imageData: eventInfo.movie.image.imageData,
-            title: eventInfo.movie.name,
-            fsk: eventInfo.movie.fsk,
-            eventDate: new Date(Date.UTC(year, month, day, hour, minute, second))
-        }
     }
 
     function getUserData() {
@@ -213,7 +206,7 @@ function BookingConfirmation(){
                             <Row id={"paymentMethodContainer"}>
                                 <p><Title level={2}>Zahlungsart wählen:</Title></p>
                                 <Collapse accordion defaultActiveKey={1}>
-                                    <Panel header={"Bahrzahlung"} key={1}>
+                                    <Panel header={"Barzahlung"} key={1}>
                                         <p>{"Sie wollen an der Kasse bezahlen."}</p>
                                     </Panel>
                                     <Panel header={"PayPal"} key={2}>
@@ -237,7 +230,7 @@ function BookingConfirmation(){
                                scroll={{ x: 230, y: 400}}
                                footer={calcTotal}
                         />
-                        <Button onClick={changeButtonClicked}>Bearbeiten</Button>
+                        <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                         <Button onClick={submitButtonClicked}>Bestätigen und buchen</Button>
                     </Col>
                 </Row>
