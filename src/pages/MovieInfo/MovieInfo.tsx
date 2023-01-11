@@ -6,7 +6,7 @@ import MovieCard from "../../components/MovieCard/MovieCard";
 import Navbar from "../../components/Navbar/Navbar";
 function MovieInfo(){
 
-
+    const API_URL = process.env.REACT_APP_API_URL;
     const [allMovieCards, setMovieCards] = useState<React.ReactElement[]>();
 
 
@@ -14,7 +14,7 @@ function MovieInfo(){
     const MovieCards: React.ReactElement[] = []
 
     useEffect(() => {
-        fetch('http://localhost:8082/v1/movie/getAll')
+        fetch(API_URL + "/movie/getAll")
             .then(response => response.json())
             .then(data =>{
                 for (let i=0; i<data.length; i++) {

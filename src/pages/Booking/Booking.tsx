@@ -4,6 +4,8 @@ import Navbar from "../../components/Navbar/Navbar";
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 interface wantedTicket {
     seatDiscount: number;
     seatNumber: number;
@@ -112,7 +114,7 @@ const { Title } = Typography;
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(data),
         }
-        fetch("http://localhost:8082/v1/booking/tempReserve",options)
+        fetch(API_URL + "/booking/tempReserve",options)
             .then(response=>{
                 if(response.ok){
                     console.log("ticket reserviert");
@@ -174,7 +176,7 @@ const { Title } = Typography;
 
     async function getEventData(){
         try {
-            const response = await fetch("http://localhost:8082/v1/event/get?id=" + eventID);
+            const response = await fetch(API_URL + "/event/get?id=" + eventID);
             eventInfo =  await response.json();
         }catch{
             console.log("error while fetching event data");

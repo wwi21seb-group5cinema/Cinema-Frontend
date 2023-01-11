@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import {useNavigate} from "react-router-dom";
 import {Layout, Button, theme, ConfigProvider, Divider, List} from 'antd';
 
-
+const API_URL = process.env.REACT_APP_API_URL;
 const { Footer, Content} = Layout;
 
 const Account: React.FC = () => {
@@ -21,7 +21,7 @@ const Account: React.FC = () => {
             navigate('/Login');
         }
         const userID = Cookies.get("userID");
-         fetch("http://localhost:8082/v1/user/" + userID)
+         fetch(API_URL + "/user/" + userID)
         .then( response => response.json()
         ).then( data => {
             const userInfo =[
