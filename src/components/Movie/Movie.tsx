@@ -35,6 +35,7 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events }) => {
             )
         }
         setEventLinks(eventLink);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
 

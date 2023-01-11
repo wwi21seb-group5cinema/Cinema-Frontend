@@ -55,6 +55,7 @@ const { Title } = Typography;
             getMovieData();
         })
         console.log("movieinfo effect funktioniert");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
 
