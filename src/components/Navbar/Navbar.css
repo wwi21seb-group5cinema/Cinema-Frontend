@@ -3,11 +3,30 @@
     justify-content: space-around;
     align-items: center;
     min-height: 10vh;
+    max-height: 110px;
     background: #212426;
-    color: grey;
-    margin-top: 1%;
-    margin-bottom: 1%;
     place-content: flex-start;
+    overflow-y: visible;
+
+}
+.ohneBild{
+    width: 100%;
+    max-height: 110px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    place-content: flex-start;
+    overflow: visible;
+}
+
+.searchbar{
+    width: 70%;
+    max-height: 110px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    place-content: flex-start;
+    overflow-y: visible;
 }
 .links{
     width: 30%;
@@ -17,7 +36,6 @@
     list-style: none;
     position: absolute;
     right: 0;
-
 }
 .linkText{
     color: darkgrey;

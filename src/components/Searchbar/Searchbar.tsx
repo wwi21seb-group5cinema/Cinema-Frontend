@@ -1,29 +1,73 @@
 import "./Searchbar.css"
 import { AiOutlineSearch } from 'react-icons/ai';
-import {useState} from "react";
+import React, { useEffect, useState } from "react";
+import { Input, Space, ConfigProvider, theme, List } from 'antd';
+import { AudioOutlined } from '@ant-design/icons';
+import MovieData from "./MovieListTest.json"
+
+const API_URL = process.env.REACT_APP_API_URL;
 function Searchbar(){
-
+    const [filteredData, setFilteredData] = useState<any[]>([]);
     const [search,setSearch] = useState('');
+    //const [MovieData,setMovieData] = useState<any[]>([]);
+    const { Search } = Input;
 
-    function SearchMovies(){
-       const searchbar:any = document.getElementById('inputText');
-       const text:string|null = searchbar.value;
-       window.alert(text );
 
-    }
-    function KeyDownHandler(e:any){
-        if(e.keyCode === 13){
-            SearchMovies();
+
+    function onChange(e:any){
+        const searchWord = e.target.value;
+        setSearch(searchWord);
+        const newFilter = MovieData.filter((value) => {
+            return value.name.toLowerCase().includes(searchWord.toLowerCase());
+        });
+        if (searchWord === "") {
+            setFilteredData([]);
+        } else {
+            setFilteredData(newFilter);
         }
-    }
+    };
+
+    const onSearch = (value: string) => console.log(value);
 
     return(
-            <div className="searchbar" onKeyDown={KeyDownHandler}>
-                <input value={search} placeholder="Suche nach Filmen" onChange={(e)=>setSearch(e.target.value)}/>
-                <h1 className="searchIcon" onClick={SearchMovies}>
-                    <AiOutlineSearch/>
-                </h1>
+        <div className={"searchfield"}>
+            <ConfigProvider
+                theme={
+                    {
+                        algorithm: theme.darkAlgorithm,
+                        token: {
+                            colorPrimary: '#61dafb',
+                        }
+                    }
+                }
+            >
+            <div >
+                    <Search className ="search" placeholder="Suche nach Filmen" allowClear onChange={onChange} onSearch={onSearch} enterButton size="large"
+                    />
+
+            </div>
+            {filteredData.length !=0 && (
+                <div className="result">
+                    <List
+                        itemLayout="horizontal"
+                        bordered={true}
+                        loadMore
+                        dataSource={filteredData}
+                        renderItem={(item) => (
+                            <List.Item className={"listitem"}>
+                                <List.Item.Meta
+                                    //avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                                    title={<a href="https://ant.design">{item.name}</a>}
+                                    description={item.description}
+                                />
+                            </List.Item>
+                        )}
+                    />
+                </div>
+                )}
+
+        </ConfigProvider>
             </div>
     );
 }
-export default Searchbar
+export default Searchbar;
