@@ -12,15 +12,19 @@
 .result {
     position: fixed;
     top: 100px;
-    width: 80%;
-    color:green;
+    width: 65%;
+    max-height: 400px;
     z-index: 100;
     background: #212426;
-
 }
 
-.listitem {
-
+.more{
+    color: #61dafb;
 }
+.more li:hover{
+    color: #5089aa;
+}
+
+
 
 
