@@ -1,7 +1,7 @@
 import {Result, ConfigProvider, theme} from "antd";
 import Navbar from "../../components/Navbar/Navbar";
 import "./EmailConfirmation.css";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 const API_URL = process.env.REACT_APP_API_URL;
 function EmailConfirmation(){
