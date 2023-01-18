@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Form, Input, ConfigProvider, theme, InputNumber} from 'antd';
 import "./RegisterForm.css";
 import {To, useNavigate} from 'react-router-dom';
-import Cookies from 'js-cookie';
+import {Space, Spin } from 'antd';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -33,10 +33,19 @@ const tailFormItemLayout = {
 const Register: React.FC = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const[loading,setLoading] = useState<React.ReactElement>();
 
     const onFinish = (values: any) => {
         delete values.confirm;
         values.isAdmin = "false";
+
+       setLoading(
+           <Space direction="vertical" className="Loading">
+                <Spin tip="Loading"  size="large">
+                    <div className="content" />
+                </Spin>
+            </Space>
+       )
 
         const options = {
             method: 'POST',
@@ -46,15 +55,11 @@ const Register: React.FC = () => {
         fetch(API_URL + '/register', options)
             .then(response => {
                 if(response.status === 201){
-                    navigate(-2 as To, { replace: true });
+                    navigate(-1 as To, { replace: true });
                     return response.json();
                 }else{
                     alert("Registrierung fehlgeschlagen");
                 }
-            })
-            .then(data =>{
-                Cookies.set('isLoggedIn', 'true', { expires: 7 });
-                Cookies.set('userID', data.id, { expires: 7 });
             })
             .catch(error =>{
                 console.log(error)
@@ -190,6 +195,7 @@ const Register: React.FC = () => {
                             registrieren
                         </Button>
                     </Form.Item>
+                        {loading}
                 </Form>
                 </ConfigProvider>
             </div>

@@ -1,3 +1,7 @@
 .Title{
     margin: 50px;
 }
+.Loading{
+    width: 130%;
+    padding-top: 3vh;
+}

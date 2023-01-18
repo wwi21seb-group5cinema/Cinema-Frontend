@@ -1,22 +1,57 @@
 import {Result, ConfigProvider, theme} from "antd";
 import Navbar from "../../components/Navbar/Navbar";
 import "./EmailConfirmation.css";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 const API_URL = process.env.REACT_APP_API_URL;
 function EmailConfirmation(){
     const location = useLocation();
+    const [statusText,setStatusText] = useState<React.ReactElement>();
+
 
     useEffect(()=>{
         let token = location.pathname.slice(location.pathname.lastIndexOf("/")).substring(1);
         console.log(token);
         fetch(API_URL + '/confirm?token=' + token, {method: "POST"})
-            .then(response =>response.json())
-            .then(data => {
-                console.log(data);
+            .then(response =>{
+                console.log(response.status);
+                if(response.ok && response.status !== 208){
+                    setStatusText(
+                        <Result
+                            className="result"
+                            status="success"
+                            title="dein Konto wurde erfolgreich verifiziert"
+                            subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
+                        />
+                    )
+                }
+                else if(response.status === 208){
+                    setStatusText(
+                        <Result
+                            className="result"
+                            status="warning"
+                            title="dein Konto wurde bereits verifiziert"
+                            subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
+                        />
+                    )
+                }
+                else{
+                    setStatusText(
+                        <Result
+                            className="result"
+                            status="error"
+                            title="Fehler bei der Verifizierung deines Kontos"
+                            subTitle={response.status}
+                        />
+                    )
+
+                }
+
             })
             .catch(err =>{
                 console.log(err);
+
+
             })
 
     },[]);
@@ -26,14 +61,7 @@ function EmailConfirmation(){
         <div className="app">
             <Navbar/>
             <ConfigProvider theme={{algorithm:theme.darkAlgorithm}}>
-
-            <Result
-                className="result"
-                status="success"
-                title="dein Konto wurde erfolgreich verifiziert"
-                subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
-            />
-
+                {statusText}
             </ConfigProvider>
         </div>
     );
