@@ -21,7 +21,7 @@ function EmailConfirmation(){
                             className="result"
                             status="success"
                             title="Dein Konto wurde erfolgreich verifiziert"
-                            subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
+                            subTitle="Du kannst nun zum Login zurückkehren und dich anmelden."
                         />
                     )
                 }
@@ -31,7 +31,7 @@ function EmailConfirmation(){
                             className="result"
                             status="warning"
                             title="Dein Konto wurde bereits verifiziert"
-                            subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
+                            subTitle="Du kannst nun zum Login zurückkehren und dich anmelden."
                         />
                     )
                 }
