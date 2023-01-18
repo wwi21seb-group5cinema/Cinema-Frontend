@@ -20,7 +20,7 @@ function EmailConfirmation(){
                         <Result
                             className="result"
                             status="success"
-                            title="dein Konto wurde erfolgreich verifiziert"
+                            title="Dein Konto wurde erfolgreich verifiziert"
                             subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
                         />
                     )
@@ -30,7 +30,7 @@ function EmailConfirmation(){
                         <Result
                             className="result"
                             status="warning"
-                            title="dein Konto wurde bereits verifiziert"
+                            title="Dein Konto wurde bereits verifiziert"
                             subTitle="du kannst nun zum Login zurückkehren und dich anmelden."
                         />
                     )
