@@ -1,8 +1,6 @@
 import "./Searchbar.css"
-import { AiOutlineSearch } from 'react-icons/ai';
 import React, { useEffect, useState } from "react";
-import { Input, Space, ConfigProvider, theme, List, Avatar } from 'antd';
-import { AudioOutlined } from '@ant-design/icons';
+import { Input, ConfigProvider, theme, List, Avatar } from 'antd';
 import {Link, useNavigate} from "react-router-dom";
 
 
