@@ -1,3 +1,58 @@
 .app{
     color: #61dafb;
 }
+
+.ant-row {
+    width: 100%;
+}
+
+.ant-col {
+    text-align: center;
+    align-items: center;
+}
+
+#Header, #Footer {
+    height: 15vh;
+    max-height: 15vh;
+}
+
+#Content {
+    height: 85vh;
+    max-height: 85vh;
+}
+
+.splitContainer {
+    height: 100%;
+    width: 100%;
+    display: inherit;
+}
+
+.leftColumn,  .rightColumn {
+    width: 25%;
+    text-align: center;
+}
+
+.middleColumn {
+    width: 50%;
+    text-align: center;
+}
+
+.seatingPlan {
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Content-Row{
+    align-items: center;
+    padding-bottom: 25vh;
+}
+
+.ant-table-body{
+    overflow-y: hidden!important;
+}
+
+.ant-table-body:hover{
+    overflow-y: scroll!important;
+}
+

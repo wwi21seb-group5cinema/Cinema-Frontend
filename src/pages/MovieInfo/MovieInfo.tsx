@@ -1,30 +1,40 @@
 //import './MovieInfo.css'
+
+import React from "react";
 import { useState, useEffect } from "react";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import Navbar from "../../components/Navbar/Navbar";
 function MovieInfo(){
 
-    function clickHandler(){
-        window.location.href = '/Booking'
-    }
+    const API_URL = process.env.REACT_APP_API_URL;
+    const [allMovieCards, setMovieCards] = useState<React.ReactElement[]>();
+
+
+
+    const MovieCards: React.ReactElement[] = []
+
+    useEffect(() => {
+        fetch(API_URL + "/movie/getAll")
+            .then(response => response.json())
+            .then(data =>{
+                for (let i=0; i<data.length; i++) {
+                    console.log(data[i].genre);
+                    MovieCards.push(<MovieCard imageUrl={""} title={data[i].name} description={"Cool film bla bla"} />)
+                }
+                setMovieCards(MovieCards);
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return(
-        <div className="infoText">
-            <p>Seite für Informationen über den Film und die Sitzplatzauswahl</p>
-            <ul>
-                <li onClick={clickHandler}>
-                    Veranstaltung 15.12.22
-                </li>
-                <li onClick={clickHandler}>
-                    Veranstaltung 17.12.22
-                </li>
-                <li onClick={clickHandler}>
-                    Veranstaltung 30.12.22
-                </li>
-                <li onClick={clickHandler}>
-                    Veranstaltung 17.01.22
-                </li>
-            </ul>
+        <div className="app">
+            <Navbar/>
+
+            {allMovieCards}
+
         </div>
     );
 }
