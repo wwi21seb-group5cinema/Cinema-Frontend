@@ -13,7 +13,7 @@
     position: fixed;
     top: 100px;
     width: 65%;
-    max-height: 400px;
+    max-height: 700px;
     z-index: 100;
     background: #212426;
 }
@@ -23,6 +23,15 @@
 }
 .more li:hover{
     color: #5089aa;
+}
+.search_link
+{
+    font-size: 1rem;
+}
+.search_image
+{
+    max-width: 80px;
+    max-height: 80px;
 }
 
 
