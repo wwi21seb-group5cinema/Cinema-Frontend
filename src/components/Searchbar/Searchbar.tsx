@@ -1,6 +1,6 @@
 import "./Searchbar.css"
 import React, { useEffect, useState } from "react";
-import { Input, ConfigProvider, theme, List, Avatar } from 'antd';
+import { Input, ConfigProvider, theme, List } from 'antd';
 import {Link, useNavigate} from "react-router-dom";
 
 
