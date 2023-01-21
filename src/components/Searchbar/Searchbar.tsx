@@ -83,7 +83,7 @@ function Searchbar(){
                                         Mehr
                                     </Link>]}>
                                 <List.Item.Meta
-                                    avatar={<img className="search_image" src={item.externalImage ? item.image_url : getURL(item.image)} />}
+                                    avatar={<img alt="movieImage" className=".search_image" src={item.externalImage ? item.image_url : getURL(item.image)} />}
                                     title={<Link className="search_link" to="/MovieInfo" state={{props: item.id}}> <li>{item.name}</li> </Link>}
                                     description={(item.description.length<=400) ? item.description : item.description.substring(0,399)+"..."}
                                 />
