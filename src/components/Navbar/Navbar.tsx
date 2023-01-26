@@ -11,20 +11,22 @@ function Navbar(){
             <Link to="/">
                 <img src={CinemaLogo} alt="Cinema5"/>
             </Link>
-            <h3>
-                <Searchbar/>
-            </h3>
-            <ul className="links">
-                <Link className="linkText" to="/">
-                    <li>Veranstaltungen</li>
-                </Link>
-                <Link className="linkText" to="/MovieInfo">
-                    <li>Filme</li>
-                </Link>
-                <Link className="linkText" to="/Account">
-                    <li>Konto</li>
-                </Link>
-            </ul>
+            <div className="ohneBild">
+                <div className="searchbar">
+                    <Searchbar/>
+                </div>
+                    <ul className="links">
+                        <Link className="linkText" to="/">
+                            <li>Veranstaltungen</li>
+                        </Link>
+                        <Link className="linkText" to="/MovieInfo">
+                            <li>Filme</li>
+                        </Link>
+                        <Link className="linkText" to="/Account">
+                            <li>Konto</li>
+                        </Link>
+                    </ul>
+            </div>
         </nav>
 
     )
