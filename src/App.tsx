@@ -8,8 +8,10 @@ import Admin from "./pages/Admin/Admin";
 import Login from "./pages//Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Scanner from "./pages/Scanner/Scanner";
+import EmailConfirmation  from "./pages/EmailConfirmation/EmailConfirmation";
+import { Routes, Route, BrowserRouter} from 'react-router-dom';
+
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
               <Route path="Register" element={<Register/>}/>
               <Route path="Account" element={<Account/>}/>
               <Route path="Scanner" element={<Scanner/>}/>
+              <Route path="confirm/:Token" element={<EmailConfirmation/>}/>
+
           </Routes>
       </BrowserRouter>
   );
