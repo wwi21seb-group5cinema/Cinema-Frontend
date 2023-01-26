@@ -22,7 +22,7 @@ const LoginForm: React.FC = () => {
                     navigate(-1 as To,{replace: true});
                     return response.json();
                 }else{
-                    alert("Benutzer mit diesen Daten ist nicht vorhanden");
+                    alert("Benutzer mit diesen Daten ist nicht vorhanden oder nicht verifiziert");
                 }
             })
             .then(data =>{
