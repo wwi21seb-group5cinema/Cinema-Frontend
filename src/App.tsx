@@ -9,6 +9,7 @@ import Login from "./pages//Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import {HashRouter, Routes, Route} from 'react-router-dom';
+import MoviePage from './pages/MoviePage/MoviePage';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
               <Route path="Login" element={<Login/>}/>
               <Route path="Register" element={<Register/>}/>
               <Route path="Account" element={<Account/>}/>
+              <Route path="MoviePage" element={<MoviePage/>}/>
           </Routes>
       </HashRouter>
   );
