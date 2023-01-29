@@ -42,7 +42,7 @@ function MovieInfo(){
                 console.log(error);
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [MovieData]);
+    }, []);
 
     //{allMovieCards} später wieder rein tun
     //<MovieCard imageUrl={""} title={"Der große Testfilm"} description={"qhfbioqenfcopqewfmneqwpofneqw"} genre={"Action"} length={170} fsk={12} rating={9.9} start_date={14.02} end_date={17.07}/>
