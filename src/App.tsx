@@ -8,13 +8,13 @@ import Admin from "./pages/Admin/Admin";
 import Login from "./pages//Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
-import {HashRouter, Routes, Route} from 'react-router-dom';
 import MoviePage from './pages/MoviePage/MoviePage';
-
+import EmailConfirmation  from "./pages/EmailConfirmation/EmailConfirmation";
+import { Routes, Route, BrowserRouter} from 'react-router-dom';
 
 function App() {
   return (
-      <HashRouter>
+      <BrowserRouter>
           <Routes>
               <Route path="/" element={<Home />} />
               <Route path="MovieInfo" element={<MovieInfo/>}/>
@@ -25,8 +25,9 @@ function App() {
               <Route path="Register" element={<Register/>}/>
               <Route path="Account" element={<Account/>}/>
               <Route path="MoviePage" element={<MoviePage/>}/>
+              <Route path="confirm/:Token" element={<EmailConfirmation/>}/>
           </Routes>
-      </HashRouter>
+      </BrowserRouter>
   );
 }
 
