@@ -1,7 +1,7 @@
 import "./Booking.css";
 import {Table, Col, Row, Button, Modal, theme, ConfigProvider, Typography, Image} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
-import React, {ReactElement, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
 import Timer from "../../components/Timer/Timer";
 
@@ -179,7 +179,7 @@ const { Title } = Typography;
         if(content.length===0) {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
-           navigate('/BookingConfirmation',{state:{eventInfo:eventInfo, movieData:movieData, content:content}});
+           navigate('/BookingConfirmation',{state:{eventInfo:eventInfo, movieData:movieData, content:content, timerDeadline:TimerDeadline,timerDisplay:TimerDisplay }});
         }
     }
 
@@ -326,7 +326,6 @@ const { Title } = Typography;
                     <Title level={3}>FSK-Freigabe: {movieData.fsk}</Title>
                 </Col>
                 <Col  span={12}>
-                    <Timer key={TimerDeadline} deadline={TimerDeadline} display={TimerDisplay}/>
                     <table className="seatingPlan">
                         <thead id={"columnHeaders"}>
                             <tr>
@@ -346,6 +345,7 @@ const { Title } = Typography;
                     />
                     <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                     <Button onClick={buyButtonClicked}>Tickets kaufen</Button>
+                    <Timer key={TimerDeadline} deadline={TimerDeadline} display={TimerDisplay}/>
                 </Col>
             </Row>
             <Modal
