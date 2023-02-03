@@ -69,11 +69,8 @@ function Home(){
             try {
                 const response = await fetch(API_URL + "/event/get?movieId=" + MovieData[i].id+"&startDate="+getDatum()+"&endDate="+getDatenextWeek())
                 if(!response.ok){
-                    console.log("FEHLER")
                     console.log("Fehler: " + response.ok);
                 }
-                const eventData = await response.json();
-                console.log(eventData);
                 topEventMovie.push(MovieData[i]);
             }
             catch(error){
@@ -96,7 +93,6 @@ function Home(){
         }
         for(let i=0; i<topEventMovie.length; i++)
         {
-            console.log("FOR")
             carousel.push(<CarouselInput imageUrl={topEventMovie[i].externalImage ? topEventMovie[i].image_url : getURL(topEventMovie[i].image)} title={topEventMovie[i].name} description={topEventMovie[i].description}/>);
 
         }
