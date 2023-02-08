@@ -31,3 +31,39 @@ body {
     }
 
 }
+
+.headline {
+    color: #61dafb;
+}
+.carouselElement{
+    display: block;
+
+}
+.inner{
+    display: flex;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+
+}
+.left{
+    width: 50%;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: var(--font-raleway);
+    font-weight: 300;
+    margin-top: auto;
+    margin-bottom: auto;
+
+}
+.imageCarousel{
+    height: 300px;
+    width: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+.right{width: 50%;
+
+}
