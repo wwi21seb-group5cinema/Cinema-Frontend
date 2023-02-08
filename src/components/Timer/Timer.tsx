@@ -33,6 +33,7 @@ const Timer = ({deadline, display}: Props) => {
         const interval = setInterval(() => getTime(deadline), 1000);
 
         return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function getNumberDisplay(num:number)
