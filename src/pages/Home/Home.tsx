@@ -100,7 +100,7 @@ function Home(){
         }
         for(let i=0; i<topEventMovie.length; i++)
         {
-            carousel.push(<CarouselInput imageUrl={topEventMovie[i].externalImage ? topEventMovie[i].image_url : getURL(topEventMovie[i].image)} title={topEventMovie[i].name} description={topEventMovie[i].description}/>);
+            carousel.push(<CarouselInput imageUrl={topEventMovie[i].externalImage ? topEventMovie[i].image_url : getURL(topEventMovie[i].image)} title={topEventMovie[i].name} description={topEventMovie[i].description} id={topEventMovie[i].id}/>);
 
         }
         setCarosel(carousel);
