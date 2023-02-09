@@ -1,8 +1,9 @@
 import "./Booking.css";
 import {Table, Col, Row, Button, Modal, theme, ConfigProvider, Typography, Image} from 'antd';
 import Navbar from "../../components/Navbar/Navbar";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
+import Timer from "../../components/Timer/Timer";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -47,6 +48,8 @@ const { Title } = Typography;
     const [colheads,setColheads] = useState<JSX.Element[]>([]);
     const [seatrows,setSeatrows] = useState<any[]>([]);
     const [content, setContent] = useState<any[]>([]);
+    const [TimerDeadline, setDeadline] = useState<string>("0");
+    const [TimerDisplay, setTimerDisplay] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -120,7 +123,13 @@ const { Title } = Typography;
                 if(response.ok){
                     console.log("ticket reserviert");
                 }
-            }).catch(error =>{
+                response.json()
+                    .then(res => {
+                        setDeadline(res);
+                        setTimerDisplay(true);
+                    })
+            })
+            .catch(error =>{
                 console.log(error);
         })
 
@@ -170,7 +179,7 @@ const { Title } = Typography;
         if(content.length===0) {
             alert("Bitte wählen Sie zuerst mindestens ein Ticket aus!");
         } else {
-           navigate('/BookingConfirmation',{state:{eventInfo:eventInfo, movieData:movieData, content:content}});
+           navigate('/BookingConfirmation',{state:{eventInfo:eventInfo, movieData:movieData, content:content, timerDeadline:TimerDeadline,timerDisplay:TimerDisplay }});
         }
     }
 
@@ -285,7 +294,6 @@ const { Title } = Typography;
 
 
     return (
-
         <div className="app" onLoad={firstTotal}>
 
             <ConfigProvider
@@ -337,6 +345,7 @@ const { Title } = Typography;
                     />
                     <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                     <Button onClick={buyButtonClicked}>Tickets kaufen</Button>
+                    <Timer key={TimerDeadline} deadline={TimerDeadline} display={TimerDisplay}/>
                 </Col>
             </Row>
             <Modal
@@ -359,10 +368,7 @@ const { Title } = Typography;
                     </select>
                 </p>
             </Modal>
-
             </ConfigProvider>
-
 </div>);
-
 }
 export default Booking;
