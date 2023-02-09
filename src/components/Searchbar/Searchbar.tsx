@@ -80,12 +80,12 @@ function Searchbar(){
                         renderItem={(item) => (
                             <List.Item
                                 actions={[
-                                    <Link className="more" to="/MovieInfo" state={{props: item.id}}>
+                                    <Link className="more" to="/MoviePage" state={{MovieData:item}} onClick={()=>setShowResult(false)}>
                                         Mehr
                                     </Link>]}>
                                 <List.Item.Meta
                                     avatar={<img alt="movieImage" className=".search_image" src={item.externalImage ? item.image_url : getURL(item.image)} />}
-                                    title={<Link className="search_link" to="/MovieInfo" state={{props: item.id}}> <li>{item.name}</li> </Link>}
+                                    title={<Link className="search_link" to="/MoviePage" state={{MovieData:item}} onClick={()=>setShowResult(false)} > <li>{item.name}</li> </Link>}
                                     description={(item.description.length<=400) ? item.description : item.description.substring(0,399)+"..."}
                                 />
                             </List.Item>

@@ -18,6 +18,7 @@ function MoviePage (){
     const props = useLocation();
     
     const MovieData = props.state.MovieData;
+    console.log(MovieData);
 
     function getURL(image:any)
     {
@@ -83,7 +84,7 @@ function MoviePage (){
             case "EIGHTEEN":
                 return "18"
         
-        };
+        }
     }
 
     function getDate(date:String)
@@ -126,7 +127,7 @@ function MoviePage (){
                     <Link to="/Booking" state={{props: eventData[i].id}} style={styles.linkText} ><p>{getDateTime(eventData[i].eventDateTime.toString())}</p></Link>
                     </Button>
                 )
-                if (i === 7){break}; 
+                if (i === 7){break}
             }
             setEventLinks(eventLink);
         }
@@ -135,7 +136,7 @@ function MoviePage (){
         }
         }
     
-       
+
 
     useEffect( ()=>{
         fetchEventData();
@@ -181,6 +182,6 @@ function MoviePage (){
         </ConfigProvider>
     );
 
-};
+}
 
 export default MoviePage;   
