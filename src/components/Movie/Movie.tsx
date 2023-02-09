@@ -1,7 +1,7 @@
 //import './Movie.css'
 
 import React, {useEffect, useState} from 'react';
-import { Card, Col, ConfigProvider, Row, theme } from 'antd';
+import { Button, Card, Col, ConfigProvider, Divider, Row, Space, theme } from 'antd';
 import {Link} from "react-router-dom";
 
 const styles = {
@@ -9,8 +9,17 @@ const styles = {
         margin: 20,
         backgroundColor: "#555555",
         borderColor: "#61dafb",
-        color: "white"
-    }
+        color: "white",
+        fontFamily: "raleway"
+        
+        
+    },
+    linkText: {
+        color: "#212426",
+        fontFamily: "raleway"
+    },
+    
+    
 };
 
 interface Props {
@@ -18,51 +27,106 @@ interface Props {
     title: string;
     description: string;
     events: any;
-}
+    genre: any;
+    length: any;
+    fsk: any;
+    clickHandlerMovie: any; 
+    currentMovie: any;
+};
 
-const Movie: React.FC<Props> = ({ imageUrl, title, description, events }) => {
+
+const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, length, fsk, clickHandlerMovie, currentMovie }) => {
 
     const eventLink: React.ReactElement[] = [];
     const [allEventLinks,setEventLinks] = useState<React.ReactElement[]>();
-    function clickHandlerMovie(){
-        window.location.href = '/MovieInfo'
-    }
+    
 
     useEffect(()=>{
         for(let i = 0; i<events.length;i++){
             eventLink.push(
-                <Link to="Booking" state={{props: events[i].id}}><p>{events[i].eventDateTime}</p></Link>
+                <Button type="primary" block>
+                <Link to="/Booking" state={{props: events[i].id}} style={styles.linkText}><p>{getDateTime(events[i].eventDateTime.toString())}</p></Link>
+                </Button>
             )
+            if (i === 3){break}; 
         }
         setEventLinks(eventLink);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
+    function getText()
+    {
+        return "Genre: "+genre.name+" | FSK: "+getFSKString(fsk)+" | Länge: "+length.toString()+" min"}
+    
+    function getFSKString(fsk: any)
+    {
+            switch (fsk) {
+            case "ZERO":
+                return "0"
+            case "SIX":
+                return "6"
+            case "TWELVE":
+                return "12"
+            case "SIXTEEN":
+                return "16"
+            case "EIGHTEEN":
+                return "18"
+        
+        };
+    }
+    function getDateTime(date:String)
+    {
+        var s = date.split(',');
+        return s[2]+"."+s[1]+"."+s[0]+" - "+s[3]+":"+getMinutes(s[4])
 
-
-
+    }
+    function getMinutes(minutes: String)
+    {   
+        var rightMinutes: String
+        if (minutes === "0")
+            rightMinutes = "00"
+        else
+            rightMinutes = minutes
+        return rightMinutes
+    }
+    
+    
+    //onClick={clickHandler}
     return (
-        <ConfigProvider theme={{algorithm: theme.darkAlgorithm}}>
+        <ConfigProvider theme={{
+            algorithm: theme.darkAlgorithm,
+            token: {
+                colorPrimary: '#61dafb',
+            }}}>
             <Card
-                title="Movie"
+                
+                title={title}
                 style={styles.movie}
                 headStyle={{color: "white"}}
             >
+                
                 <Row>
-                    <Col span={12}>
-                        <img src={imageUrl} alt={title} onClick={clickHandlerMovie}/>
+               
+                    <Col style={{width: "33%"}}>
+                        <img src={imageUrl} alt={title} style={{cursor: "pointer"}} onClick={() => {clickHandlerMovie(currentMovie)}}/>
                     </Col>
-                    <Col span={12}>
-                        <h3>{title}</h3>
-                        <p>{description}</p>
-                        <ul>
+                    <Col style={{width: "33%"}}>
+                        <div style={{color: "lightgrey"}}> {getText()}</div>
+                        <Divider style={{color: "white"}}/>
+                        <div style={{margin: 10, cursor: "pointer"}} onClick={() => {clickHandlerMovie(currentMovie)}}>{(description.length<=200) ? description : description.substring(0,199)+"..."}</div>
+                    </Col>  
+                    <Col style={{width: "33%"}}>
+                        <Space wrap direction="vertical">
                             {allEventLinks}
-                        </ul>
-                    </Col>
+                        </Space>
+                    </Col> 
+                     
                 </Row>
+                
             </Card>
         </ConfigProvider>
     );
 };
 
 export default Movie;
+
