@@ -16,18 +16,22 @@ const LoginForm: React.FC = () => {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(values),
         }
+        let responseStatus : boolean = false;
         fetch(API_URL + '/login', options)
             .then(response => {
+                responseStatus = response.ok;
                 if(response.status === 200){
                     navigate(-1 as To,{replace: true});
                     return response.json();
                 }else{
-                    alert("Benutzer mit diesen Daten ist nicht vorhanden");
+                    alert("Benutzer mit diesen Daten ist nicht vorhanden oder nicht verifiziert");
                 }
             })
             .then(data =>{
-                Cookies.set('isLoggedIn', 'true', { expires: 7 });
-                Cookies.set('userID', data.id, { expires: 7 });
+                if(responseStatus) {
+                    Cookies.set('isLoggedIn', 'true', {expires: 7});
+                    Cookies.set('userID', data.id, {expires: 7});
+                }
             })
             .catch(error =>{
                 console.log(error)
