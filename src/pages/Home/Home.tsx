@@ -114,15 +114,7 @@ function Home(){
         fetchEventData();
         fetchCarouselData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[MovieData]);
-
-    function getURL(image:any)
-    {
-        return API_URL + "/image/get/"+image.id.toString()
-    }
-
-    
-    
+    },[MovieData]);    
  
     return(
         <div className="app">
