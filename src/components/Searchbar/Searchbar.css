@@ -14,10 +14,16 @@
     top: 100px;
     width: 65%;
     max-height: 700px;
+    z-index: 50;
+}
+.list{
+    position: fixed;
+    top: 100px;
+    width: 65%;
     z-index: 100;
     background: #212426;
-}
 
+}
 .more{
     color: #61dafb;
 }

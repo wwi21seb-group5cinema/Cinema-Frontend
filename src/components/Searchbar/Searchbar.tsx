@@ -33,7 +33,7 @@ function Searchbar(){
         });
         setFilteredData(newFilter);
 
-    };
+    }
     const navigate = useNavigate();
 
     function onSearch() {
@@ -73,6 +73,7 @@ function Searchbar(){
             {(filteredData.length !==0&&showResult) && (
                 <div className="result">
                     <List
+                        className = "list"
                         itemLayout="horizontal"
                         bordered={true}
                         dataSource={filteredData.slice(0,5)}
