@@ -8,9 +8,9 @@ import Admin from "./pages/Admin/Admin";
 import Login from "./pages//Login/Login";
 import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
+import MoviePage from './pages/MoviePage/MoviePage';
 import EmailConfirmation  from "./pages/EmailConfirmation/EmailConfirmation";
 import { Routes, Route, BrowserRouter} from 'react-router-dom';
-
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
               <Route path="Login" element={<Login/>}/>
               <Route path="Register" element={<Register/>}/>
               <Route path="Account" element={<Account/>}/>
+              <Route path="MoviePage" element={<MoviePage/>}/>
               <Route path="confirm/:Token" element={<EmailConfirmation/>}/>
           </Routes>
       </BrowserRouter>
