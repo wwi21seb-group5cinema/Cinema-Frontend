@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import {useLocation} from "react-router-dom";
+import Timer from "../../components/Timer/Timer";
 
 const API_URL = process.env.REACT_APP_API_URL;
 const { Title } = Typography;
@@ -25,6 +26,8 @@ function BookingConfirmation(){
     const eventInfo = props.state.eventInfo;
     const movieData = props.state.movieData;
     const content = props.state.content;
+    const timerDeadline = props.state.timerDeadline;
+    const timerDisplay = props.state.timerDisplay;
 
         if(Cookies.get("isLoggedIn") === "true") {
         } else {
@@ -232,6 +235,7 @@ function BookingConfirmation(){
                         />
                         <Button onClick={cancelButtonClicked}>Abbrechen</Button>
                         <Button onClick={submitButtonClicked}>Bestätigen und buchen</Button>
+                        <Timer key={timerDeadline} deadline={timerDeadline} display={timerDisplay}/>
                     </Col>
                 </Row>
 
