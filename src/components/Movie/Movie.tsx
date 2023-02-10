@@ -107,8 +107,6 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, l
                     title={title}
                     style={styles.movie}
                     headStyle={{color: '#61dafb', fontSize: "1.5rem", fontWeight: "500"}}
-                    onClick={() => {clickHandlerMovie(currentMovie)}}
-
             >
                 
                 <Row>

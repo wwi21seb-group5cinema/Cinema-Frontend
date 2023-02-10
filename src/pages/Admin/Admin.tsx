@@ -108,7 +108,7 @@ function Admin(){
                         <div className="addMovie">
                             <div>
                         <h1>Film hinzufügen</h1>
-                        <Search className ="searchAdmin" placeholder="Suche nach Filmen" allowClear  onSearch={onSearch} enterButton size="large"/>
+                        <Search className ="searchAdmin" placeholder="Suche nach neuen Filmen" allowClear  onSearch={onSearch} enterButton size="large"/>
                             </div>
                             {ResultList}
                         </div>
