@@ -1,4 +1,5 @@
 import { StarOutlined } from "@ant-design/icons";
+
 import { AutoComplete, Button, Col, ConfigProvider, Divider, Row, Space, theme, List} from "antd";
 import { any } from "prop-types";
 import { useEffect, useState } from "react";
@@ -107,7 +108,6 @@ function MoviePage (){
                 return "16"
             case "EIGHTEEN":
                 return "18"
-        
         }
     }
 

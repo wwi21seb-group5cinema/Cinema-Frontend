@@ -1,0 +1,19 @@
+.Title{
+    right:10px;
+    position: absolute;
+    margin-right: 2%;
+}
+
+.EventForm{
+    right: 10px;
+    top:30%;
+    position: absolute;
+    margin-right: 2%;
+}
+.SaalSelect{
+    margin-right: 10px;
+    width: 200px;
+}
+.EventButton{
+    margin-left: 10px;
+}
