@@ -69,7 +69,9 @@ const Register: React.FC = () => {
 
     return (
             <div className="App">
-                <ConfigProvider theme ={{algorithm: theme.darkAlgorithm,}}>
+                <ConfigProvider theme ={{algorithm: theme.darkAlgorithm,token: {
+                        colorPrimary: '#61dafb',
+                    }}}>
                     <Form
                     {...formItemLayout}
                     form={form}

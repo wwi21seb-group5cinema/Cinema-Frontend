@@ -1,3 +1,10 @@
 .Title{
     margin: 50px;
 }
+.link{
+    color : #61dafb;
+}
+
+.link li:hover{
+    color: #5089aa;
+}
