@@ -80,7 +80,7 @@ const Register: React.FC = () => {
                     onFinish={onFinish}
                     scrollToFirstError
                 >
-                    <h1 className="Title">Registrierung</h1>
+                    <h1 className="LoginTitle">Registrierung</h1>
                     <Form.Item
                         name="firstName"
                         label="Vorname"

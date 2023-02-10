@@ -83,9 +83,9 @@ function Searchbar(){
                 <Search className ="search" placeholder={placeholder} allowClear onChange={onChange} onSearch={onSearch} enterButton size="large"/>
             </div>
             {(filteredData.length !==0&&showResult) && (
-                <div className="result">
+                <div className="Sresult">
                     <List
-                        className = "list"
+                        className = "Slist"
                         itemLayout="horizontal"
                         bordered={true}
                         dataSource={filteredData.slice(0,5)}
