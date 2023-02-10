@@ -35,9 +35,9 @@ function BookingConfirmation(){
     }
 
     const [userData, setUserData] = useState<any>({});
-        useEffect(()=>{
-            getUserData();
-        },[]);
+    useEffect(()=>{
+        getUserData();
+    },[]);
 
 
     const columns = [
@@ -138,7 +138,7 @@ function BookingConfirmation(){
                         plz: data.city.plz,
                         cityName: data.city.name,
                         email: data.email
-                        };
+                    };
                     setUserData(userInfo);
                 }
 
