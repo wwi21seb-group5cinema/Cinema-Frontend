@@ -69,7 +69,9 @@ const Register: React.FC = () => {
 
     return (
             <div className="App">
-                <ConfigProvider theme ={{algorithm: theme.darkAlgorithm,}}>
+                <ConfigProvider theme ={{algorithm: theme.darkAlgorithm,token: {
+                        colorPrimary: '#61dafb',
+                    }}}>
                     <Form
                     {...formItemLayout}
                     form={form}
@@ -78,7 +80,7 @@ const Register: React.FC = () => {
                     onFinish={onFinish}
                     scrollToFirstError
                 >
-                    <h1 className="Title">Registrierung</h1>
+                    <h1 className="LoginTitle">Registrierung</h1>
                     <Form.Item
                         name="firstName"
                         label="Vorname"

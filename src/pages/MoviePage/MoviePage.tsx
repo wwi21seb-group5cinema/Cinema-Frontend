@@ -1,8 +1,12 @@
 import { StarOutlined } from "@ant-design/icons";
-import { Button, Col, ConfigProvider, Divider, Row, Space, theme} from "antd";
+
+import { Button, Col, ConfigProvider, Divider, Row, Space, theme, List} from "antd";
+
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
+import VirtualList from 'rc-virtual-list';
+
 
 const styles = {
     linkText: {
@@ -24,8 +28,6 @@ function MoviePage (){
     {
         return API_URL + "/image/get/"+image.id.toString()
     }
-    
-    
 
     const imageUrl = MovieData.externalImage ? MovieData.image_url : getURL(MovieData.image);
     const title = MovieData.name;
@@ -38,9 +40,32 @@ function MoviePage (){
     const end_date=MovieData.end_date 
     const producer=MovieData.producer
     const director=MovieData.director
-    const actors=MovieData.actors
-    
+    const id=MovieData.id
+    const trailerUrl = MovieData.trailer_url
+    const [actorsList,setActorsList] = useState<any>("");
 
+    async function getAllActors(id:any){
+    let actors: any[]  = []
+    try{ 
+        const response = await fetch(API_URL + "/actsIn/getByMovie?movieId=" + id)
+        const data = await response.json()
+      
+            console.log(data)
+            for (let i=0; i<data.length; i++){
+                actors.push(data[i].actor.name + " " + data[i].actor.firstName + ": " + data[i].characterName);
+
+            }
+            setActorsList(actors)
+                
+                
+        } catch(error) {console.log(error)}             
+    }
+    
+    useEffect( ()=>{
+        getAllActors(id)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+    
     function getGenre()
     {
         return "Genre: " +genre.name}
@@ -67,7 +92,7 @@ function MoviePage (){
         return "Regisseur: " +director.firstName + " " + director.name}
     function getActors()
     {
-        return "Schauspieler: " +actors}
+        return "Schauspieler: "}
 
 
     function getFSKString(fsk: any)
@@ -83,7 +108,6 @@ function MoviePage (){
                 return "16"
             case "EIGHTEEN":
                 return "18"
-        
         }
     }
 
@@ -108,6 +132,16 @@ function MoviePage (){
         else
             rightMinutes = minutes
         return rightMinutes
+    }
+    function getTrailer(url:any) {
+        if(url != null){
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+    
+        return (match && match[2].length === 11)
+          ? match[2]
+          : null;
+        }
     }
     
     const eventLink: React.ReactElement[] = [];
@@ -135,7 +169,7 @@ function MoviePage (){
             console.log(error);
         }
         }
-    
+        console.log(actorsList)
 
 
     useEffect( ()=>{
@@ -148,18 +182,20 @@ function MoviePage (){
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
         <div className="app">
             <Navbar/>
             <Row>
                 <Col style={{width: "33%"}}>
                     <Space wrap direction="vertical">
-                        <img src={imageUrl} alt={title} />
-                        <img src={imageUrl} alt={title} />
+                        <img src={imageUrl} alt={title} style={{height: 250, width: 444.44}}/>
+                        <h2>Trailer</h2>
+                        <iframe src={"https://www.youtube.com/embed/" + getTrailer(trailerUrl)} allowFullScreen style={{height: 250, width: 444.44}} title="trailer"/>
                     </Space>
                 </Col>
                 <Col style={{width: "33%"}}>
-                    <h1 style={{fontFamily: "raleway"}}> {title} </h1>
+                    <h1> {title} </h1>
                     <p style={{margin: 10, color: "white"}}>{description}</p>
                     <Divider/>
                     <Space wrap direction="vertical">
@@ -167,15 +203,29 @@ function MoviePage (){
                     </Space>
                 </Col>
                 <Col style={{width: "33%"}}>
-                    <h3> {getGenre()} </h3>
-                    <h3> {getFSK()}</h3>
-                    <h3> {getLength()} </h3>
-                    <h3> {getRating()} <StarOutlined /></h3>
-                    <h3>  {getStartDate()}</h3>
+                    <h3 style={{margin: 10}}> {getGenre()}</h3>
+                    <h3 style={{margin: 10}}> {getFSK()}</h3>
+                    <h3 style={{margin: 10}}> {getLength()} </h3>
+                    <h3 style={{margin: 10}}> {getRating()} <StarOutlined /></h3>
+                    <h3 style={{margin: 10}}>  {getStartDate()}</h3>
                     {end_date!==null && <h3> {getEndDate()}</h3>}
-                    <div> {getProducer()}</div>
-                    <div> {getDirector()}</div>
-                    <div> {getActors()}</div>
+                    <div style={{margin: 10}}> {getProducer()}</div>
+                    <div style={{margin: 10}}> {getDirector()}</div>
+                    <div style={{margin: 10}}> {getActors()}</div>
+                    <p></p>
+                    <List> 
+                        <VirtualList 
+                            data={actorsList} 
+                            height={250} 
+                            itemHeight={30} 
+                            itemKey="id"
+                            > 
+                                {(index) => 
+                                    <div>{index.actor === undefined ? null: (index.actor.name + " " + index.actor.firstName)}<p>{index}</p></div>
+                                }
+                        </VirtualList> 
+                    </List>
+                    
                 </Col>
             </Row>
         </div>
@@ -185,3 +235,6 @@ function MoviePage (){
 }
 
 export default MoviePage;   
+
+
+

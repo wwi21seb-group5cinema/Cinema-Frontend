@@ -348,6 +348,7 @@ const { Title } = Typography;
                     <Navbar />
                 </Col>
             </Row>
+
             <Row className={"Content-Row"}  id={"Content"}>
                 <Col span={6}>
                     <Image
@@ -367,26 +368,27 @@ const { Title } = Typography;
                 <Col  span={12}>
                     <table className="seatingPlan">
                         <thead id={"columnHeaders"}>
+
                             <tr>
                                 {colheads}
                             </tr>
-                        </thead>
-                        <tbody id={"seatPlanRows"}>{seatrows}</tbody>
-                    </table>
-                </Col>
-                <Col span={6}>
-                    <Table dataSource={[...content]}
-                           rowKey="uid"
-                           columns={columns}
-                           pagination={false}
-                           scroll={{ x: 230, y: 400}}
-                           footer={firstTotal}
-                    />
-                    <Button onClick={cancelButtonClicked}>Abbrechen</Button>
-                    <Button onClick={buyButtonClicked}>Tickets kaufen</Button>
-                    <Timer key={TimerDeadline} deadline={TimerDeadline} display={TimerDisplay}/>
-                </Col>
-            </Row>
+                            </thead>
+                            <tbody id={"seatPlanRows"}>{seatrows}</tbody>
+                        </table>
+                    </Col>
+                    <Col span={6}>
+                        <Table dataSource={[...content]}
+                               rowKey="uid"
+                               columns={columns}
+                               pagination={false}
+                               scroll={{ x: 230, y: 400}}
+                               footer={firstTotal}
+                        />
+                        <Button onClick={cancelButtonClicked}>Abbrechen</Button>
+                        <Button onClick={buyButtonClicked}>Tickets kaufen</Button>
+                        <Timer key={TimerDeadline} deadline={TimerDeadline} display={TimerDisplay}/>
+                    </Col>
+                </Row>
             <Modal
                 title="Ticketauswahl"
                 open={isModalOpen}

@@ -1,13 +1,14 @@
 import React from 'react';
 import { Card, Col, ConfigProvider, Divider, Row, theme } from 'antd';
 import { StarOutlined } from '@ant-design/icons';
+import "./MovieCard.css"
 
 const styles = {
     movie: {
         margin: 20,
-        backgroundColor: "#555555",
+        backgroundColor: "#212426",
         borderColor: "#61dafb",
-        color: "white"
+        color: "#61dafb"
     }
 };
 
@@ -63,28 +64,31 @@ const MovieCard: React.FC<Props> = ({ imageUrl, title, description, genre, lengt
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
             <Card
                 hoverable
                 title={title}
                 style={styles.movie}
-                headStyle={{color: "white"}}
+                headStyle={{color: '#61dafb', fontSize: "1.5rem", fontWeight: "500", fontFamily: "raleway"}}
                 onClick={() => {clickHandlerMovie(currentMovie)}}
             >
                <Row>
                
                <Col style={{width: "33%"}}>
-                   <img src={imageUrl} alt={title}/>
+                   <img className= "image" src={imageUrl} alt={title}/>
                </Col>
                <Col style={{width: "33%"}}>
-                    <div style={{color: "lightgrey"}}> {getText()}</div>
+                    <div style={{fontSize: "1.3rem", fontWeight: "500"}}> {getText()}</div>
                    <Divider style={{color: "white"}}/>
-                   <div style={{margin: 10}}>{(description.length<=200) ? description : description.substring(0,199)+"..."}</div>
-               </Col>  
-               <Col style={{width: "33%"}}>
-                   <h3> Rating: {parseFloat(rating).toFixed(1)} <StarOutlined /></h3>
-                   <h3> Startdatum: {getDate(start_date.toString())}</h3>
-                   {end_date!==null && <h3> Enddatum: {getDate(end_date.toString())}</h3>}
+                   <div style={{color: "lightgrey", margin: 10, fontSize: "1.1rem", textAlign: "justify"}}>{(description.length<=500) ? description : description.substring(0,499)+"..."}</div>
+               </Col>
+                   <Col style={{width: "33%", fontSize: "1.3rem", fontWeight: "500",display: "flex", alignItems: "center"}}>
+                   <span style={{ alignItems: "center", width:"100%"}} >
+                   <div style={{marginTop: 10}}> Rating: {parseFloat(rating).toFixed(1)} <StarOutlined /></div>
+                   <div style={{marginTop: 10}}> Startdatum: {getDate(start_date.toString())}</div>
+                   {end_date!==null && <div style={{marginTop: 10}}> Enddatum: {getDate(end_date.toString())}</div>}
+                       </span>
                </Col> 
                 
            </Row>

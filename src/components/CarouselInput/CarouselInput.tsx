@@ -8,15 +8,15 @@ interface Props {
     imageUrl: string;
     title: string;
     description: string;
-    id:string
+    movie:any
 }
 
-const CarouselInput: React.FC<Props> = ({ imageUrl, title, description, id }) =>(
+const CarouselInput: React.FC<Props> = ({ imageUrl, title, description, movie }) =>(
 
     <div className = "carouselElement">
     <div className= "inner">
     <div className="left">
-        <Link className="headline" to="/MovieInfo" state={{props: {id}}}>
+        <Link className="headline" to="/MoviePage" state={{MovieData:movie}}>
             {title}
         </Link>
         <p>{(description.length >400 ) ?  (description.substring(0,399))+"..." : description}</p>

@@ -3,7 +3,7 @@ import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import {Button, ConfigProvider, Form, Input, theme} from 'antd';
 import {Link, useNavigate, To} from "react-router-dom";
 import Cookies from "js-cookie";
-
+import "./LoginForm.css"
 const API_URL = process.env.REACT_APP_API_URL;
 
 
@@ -40,7 +40,9 @@ const LoginForm: React.FC = () => {
 
     return (
         <div className="App">
-            <ConfigProvider theme={{algorithm:theme.darkAlgorithm}}>
+            <ConfigProvider theme={{algorithm:theme.darkAlgorithm,token: {
+                    colorPrimary: '#61dafb',
+                }}}>
                 <Form
                     name="login"
                     className="login-form"
@@ -48,7 +50,7 @@ const LoginForm: React.FC = () => {
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
-                    <h1 className="Title">Anmeldung</h1>
+                    <h1 className="LoginTitle">Anmeldung</h1>
                     <Form.Item
                         name="email"
                         rules={[{ required: true, message: 'Bitte geben sie ihre E-Mail ein' }]}
@@ -72,7 +74,7 @@ const LoginForm: React.FC = () => {
                     </Form.Item>
                     <Form.Item>
                         noch kein Konto?
-                        <Link to="/Register">
+                        <Link className = "link" to="/Register">
                             <p>jetzt registrieren</p>
                         </Link>
                     </Form.Item>
