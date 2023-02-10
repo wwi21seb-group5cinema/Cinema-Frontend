@@ -38,7 +38,6 @@ function Admin(){
             .then(response => response.json())
             .then(data =>{
                 const Movies:any[] = data;
-                console.log(Movies);
                 setResultList(
                     <List
                         className = "list"
@@ -86,9 +85,7 @@ function Admin(){
             hour = 0 + hour;
         }
 
-        const DateTimeString:string = day + "-" + month + "-" + e.$y + " " + hour + ":" + e.$m;
-        console.log(DateTimeString);
-        EventDateTime = DateTimeString;
+        EventDateTime = day + "-" + month + "-" + e.$y + " " + hour + ":" + e.$m;
     }
 
     function cinemaHallSelected(e:any){
