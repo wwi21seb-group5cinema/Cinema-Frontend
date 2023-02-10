@@ -340,6 +340,9 @@ function Booking() {
                 theme={
                     {
                         algorithm: theme.darkAlgorithm,
+                        token: {
+                            colorPrimary: '#61dafb',
+                        }
                     }
                 }
             >

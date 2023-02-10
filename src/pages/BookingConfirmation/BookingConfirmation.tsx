@@ -156,6 +156,9 @@ function BookingConfirmation(){
                 theme={
                     {
                         algorithm: theme.darkAlgorithm,
+                        token: {
+                            colorPrimary: '#61dafb',
+                        }
                     }
                 }
             >

@@ -16,6 +16,7 @@ const Account: React.FC = () => {
     const [userData ,setUserData] = useState<{ title: string; description: any; }[]>([]);
     const [allTickets ,setTickets] = useState<React.ReactElement[]>();
     const [ticketData ,setTicketData] = useState<any[]>([]);
+    const [trigger ,setTrigger] = useState<any>(0);
 
 
     useEffect(()=>{
@@ -67,22 +68,25 @@ const Account: React.FC = () => {
     },[])
 
     async function onClick (id:any){
+        console.log(allTickets)
+        console.log(ticketData[id])
         console.log(ticketData[id].id)
         const options = {
             method: 'POST'
         }
-        const response = await fetch(API_URL + "/ticket/cancel?ticketId=" +ticketData[id].id,options);
-        await response.json();
-            if(response.ok) {
+        fetch(API_URL + "/ticket/cancel?ticketId=" +ticketData[id].id,options)
+            .then(response => {
+                if(response.ok) {
                     ticketData.splice(id, 1)
                 setTicketData(ticketData)
-            }else{
+                    setTrigger((trigger+1));
+                alert("Ticket wurde storniert")
+
+                }else{
                 alert("Fehler")
             }
-        }
-
-
-
+        });
+    }
 
 
     useEffect(()=>{
@@ -91,11 +95,13 @@ const Account: React.FC = () => {
       .then( response => response.json()
       ).then( data => {
           console.log(data)
-            setTicketData(data)});
+            setTicketData(data);
+            setTrigger((trigger+1))});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     useEffect(()=>{
+        console.log("useeffect")
         const Tickets: React.ReactElement[] = []
 
         for(let i = 0; i< ticketData.length; i++) {
@@ -105,7 +111,7 @@ const Account: React.FC = () => {
     }
     setTickets(Tickets)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[ticketData]);
+    },[trigger]);
 
 
     function LogOff(){

@@ -32,7 +32,7 @@ interface Props {
 }
 
 
-const Movie: React.FC<Props> = ({  title, date, cinemaHall, place, row  }) => {
+const Movie: React.FC<Props> = ({  title, date, cinemaHall, place, row,id, onClickHandler  }) => {
 
 
     function getText1()
@@ -83,7 +83,7 @@ const Movie: React.FC<Props> = ({  title, date, cinemaHall, place, row  }) => {
                     </Col>
 
                     <Col style={{width: "30%"}}>
-                        <Button type="primary" block onClick={()=>{alert("bitte rufen sie für die Stonierung ihresTickets bei uns an :)")}}>
+                        <Button type="primary" block onClick={()=>onClickHandler(id)}>
                             stornieren
                         </Button>
                     </Col>
