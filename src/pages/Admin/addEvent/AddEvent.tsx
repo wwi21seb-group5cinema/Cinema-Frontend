@@ -1,4 +1,4 @@
-import "./addEvent.css"
+import "./AddEvent.css"
 import Navbar from "../../../components/Navbar/Navbar";
 import {Button, ConfigProvider,  List, theme,DatePicker,Select} from "antd";
 
@@ -15,8 +15,7 @@ let cinemaHallID:string = "";
 let MovieId :string = "";
 let EventDateTime:string = "";
 
-function addEvent(){
-
+function AddEvent(){
     const [ResultList,setResultList] = useState<React.ReactElement>();
     const [EventForm,setEventForm] = useState<React.ReactElement>();
     const navigate = useNavigate();
@@ -187,4 +186,4 @@ function addEvent(){
         </div>
     );
 }
-export default addEvent
+export default AddEvent

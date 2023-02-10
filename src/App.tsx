@@ -10,7 +10,7 @@ import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import MoviePage from './pages/MoviePage/MoviePage';
 import EmailConfirmation  from "./pages/EmailConfirmation/EmailConfirmation";
-import AddEvent from "./pages/Admin/addEvent/addEvent";
+import AddEvent from "./pages/Admin/addEvent/AddEvent";
 import { Routes, Route, BrowserRouter} from 'react-router-dom';
 
 function App() {
