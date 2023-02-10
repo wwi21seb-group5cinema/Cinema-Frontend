@@ -10,6 +10,7 @@ import Register from "./pages/Register/Register";
 import Account from "./pages/Account/Account";
 import MoviePage from './pages/MoviePage/MoviePage';
 import EmailConfirmation  from "./pages/EmailConfirmation/EmailConfirmation";
+import AddEvent from "./pages/Admin/addEvent/addEvent";
 import { Routes, Route, BrowserRouter} from 'react-router-dom';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route path="Account" element={<Account/>}/>
               <Route path="MoviePage" element={<MoviePage/>}/>
               <Route path="confirm/:Token" element={<EmailConfirmation/>}/>
+              <Route path="Admin/addEvent" element={<AddEvent/>}/>
           </Routes>
       </BrowserRouter>
   );
