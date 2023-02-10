@@ -69,19 +69,18 @@ const Account: React.FC = () => {
     async function onClick (id:any){
         console.log(id)
         const options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            method: 'POST'
         }
         const response = await fetch(API_URL + "/ticket/cancel?ticketId=" +ticketData[id].id,options);
-        const data = await response.json();
-                if(response.ok) {
-                    {
-                        ticketData.splice(id, 1)
-                    }
-                    setTicketData(ticketData)
-                }else{
-                    alert("Fehler")
+        await response.json();
+            if(response.ok) {
+                {
+                    ticketData.splice(id, 1)
                 }
+                setTicketData(ticketData)
+            }else{
+                alert("Fehler")
+            }
         }
 
 
