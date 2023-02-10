@@ -21,7 +21,7 @@ function Admin(){
         fetch(API_URL + "/user/" + userID)
             .then( response => response.json()
             ).then( data => {
-                if(data.isAdmin === false){
+                if(!(data.role === "ADMIN")){
                     navigate(-1 as To, { replace: true });
                 }
             }
