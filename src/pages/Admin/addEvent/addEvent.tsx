@@ -121,13 +121,20 @@ function Admin(){
     function addEvent(id:string, name:string,){
         MovieId = id;
         setEventForm(
-                <div className="EventForm">
-                <h1 className="Title">{name}</h1>
-                    <Select  className="SaalSelect" onSelect={cinemaHallSelected}>
-                        {dropdownlist}
-                    </Select>
-                    <DatePicker showTime format="YYYY-MM-DD HH:mm" onOk={datePicked} />
-                    <Button onClick={createEventRequest}>Event erstellen</Button>
+                <div>
+                    <div className="Title">
+                    <h2>{name}</h2>
+                    </div>
+                    <div className="EventForm">
+                        <Select  className="SaalSelect" onSelect={cinemaHallSelected}>
+                            {dropdownlist}
+                        </Select>
+                        <DatePicker showTime format="YYYY-MM-DD HH:mm" onOk={datePicked} />
+                        <Button className="EventButton" onClick={createEventRequest}>Event erstellen</Button>
+                    </div>
+
+
+
                 </div>
 
         )
