@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
-                    <h1 className="Title">Anmeldung</h1>
+                    <h1 className="LoginTitle">Anmeldung</h1>
                     <Form.Item
                         name="email"
                         rules={[{ required: true, message: 'Bitte geben sie ihre E-Mail ein' }]}

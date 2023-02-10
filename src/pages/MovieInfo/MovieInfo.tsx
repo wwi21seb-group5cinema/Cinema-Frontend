@@ -2,7 +2,9 @@
 
 import React from "react";
 import { useState, useEffect } from "react";
-import {useNavigate} from "react-router-dom";
+
+import { useNavigate} from "react-router-dom";
+
 import MovieCard from "../../components/MovieCard/MovieCard";
 import Navbar from "../../components/Navbar/Navbar";
 import Cookies from "js-cookie";
@@ -12,8 +14,10 @@ function MovieInfo(){
     const API_URL = process.env.REACT_APP_API_URL;
     const [allMovieCards, setMovieCards] = useState<React.ReactElement[]>();
     const [MovieData,setMovieData] = useState<any[]>([]);
+
     const searchWord = Cookies.get("search");
     console.log(searchWord)
+
 
     function getURL(image:any)
     {

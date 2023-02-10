@@ -9,14 +9,14 @@
     overflow-y: visible;
 }
 
-.result {
+.Sresult {
     position: fixed;
     top: 100px;
     width: 65%;
     max-height: 700px;
     z-index: 50;
 }
-.list{
+.Slist{
     position: fixed;
     top: 100px;
     width: 65%;

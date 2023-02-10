@@ -1,3 +1,46 @@
 .app{
     color: #61dafb;
 }
+.Admin{
+    color: #61dafb;
+}
+.addMovie{
+    margin: 5vh 5vh 5vh 5vh;
+}
+.searchAdmin{
+    margin-top: 5vh;
+    width: 65%;
+}
+.result {
+    justify-content: center;
+    max-height: 700px;
+    z-index: 50;
+}
+.list{
+    position: absolute;
+    top: 300px;
+    width: 65%;
+    z-index: 100;
+    background: #212426;
+
+}
+.more{
+    color: #61dafb;
+}
+.more li:hover{
+    color: #5089aa;
+}
+.search_link
+{
+    font-size: 1rem;
+}
+.search_image
+{
+    width: 10px;
+    max-height: 10px;
+}
+.addEvent{
+    right: 10px;
+    position: absolute;
+    margin-right: 10%;
+}

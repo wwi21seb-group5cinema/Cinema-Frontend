@@ -66,20 +66,21 @@ const Account: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
-    function onClick (id:any){
-        console.log(id)
+    async function onClick (id:any){
+        console.log(ticketData[id].id)
         const options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            method: 'POST'
         }
-        fetch(API_URL + "/ticket/cancel?id=" +ticketData[id],options)
-            .then(response => {
-                if(response.ok)
-                {ticketData.splice(id,1)}
-                else{
-                    alert("Fehler")}
-                })
+        const response = await fetch(API_URL + "/ticket/cancel?ticketId=" +ticketData[id].id,options);
+        await response.json();
+            if(response.ok) {
+                    ticketData.splice(id, 1)
+                setTicketData(ticketData)
+            }else{
+                alert("Fehler")
             }
+        }
+
 
 
 
@@ -99,7 +100,7 @@ const Account: React.FC = () => {
 
         for(let i = 0; i< ticketData.length; i++) {
         //Daten ersetzen
-        Tickets.push(<Ticket title={ticketData[i].title} date={ticketData[i].date} cinemaHall={ticketData[i].cinemHall} row={ticketData[i].row} place={ticketData[i].place} id={i}
+        Tickets.push(<Ticket title={ticketData[i].title} date={ticketData[i].date.toString()} cinemaHall={ticketData[i].cinemaHall} row={ticketData[i].row} place={ticketData[i].place} id={i}
                              onClickHandler={onClick}/>)
     }
     setTickets(Tickets)
