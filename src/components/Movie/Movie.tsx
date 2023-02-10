@@ -3,20 +3,22 @@
 import React, {useEffect, useState} from 'react';
 import { Button, Card, Col, ConfigProvider, Divider, Row, Space, theme } from 'antd';
 import {Link} from "react-router-dom";
+import "./Movie.css"
 
 const styles = {
     movie: {
         margin: 20,
-        backgroundColor: "#555555",
+        backgroundColor: "#212426",
         borderColor: "#61dafb",
-        color: "white",
-        fontFamily: "raleway"
-        
+        color: "#61dafb",
+
         
     },
     linkText: {
         color: "#212426",
-        fontFamily: "raleway"
+        fontSize: "1rem",
+        fontWeight: "500"
+
     },
     
     
@@ -32,7 +34,7 @@ interface Props {
     fsk: any;
     clickHandlerMovie: any; 
     currentMovie: any;
-};
+}
 
 
 const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, length, fsk, clickHandlerMovie, currentMovie }) => {
@@ -48,7 +50,7 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, l
                 <Link to="/Booking" state={{props: events[i].id}} style={styles.linkText}><p>{getDateTime(events[i].eventDateTime.toString())}</p></Link>
                 </Button>
             )
-            if (i === 3){break}; 
+            if (i === 3){break}
         }
         setEventLinks(eventLink);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -72,7 +74,7 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, l
             case "EIGHTEEN":
                 return "18"
         
-        };
+        }
     }
     function getDateTime(date:String)
     {
@@ -97,26 +99,30 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, l
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
             <Card
-                
-                title={title}
-                style={styles.movie}
-                headStyle={{color: "white"}}
+
+                    hoverable
+                    title={title}
+                    style={styles.movie}
+                    headStyle={{color: '#61dafb', fontSize: "1.5rem", fontWeight: "500"}}
+                    onClick={() => {clickHandlerMovie(currentMovie)}}
+
             >
                 
                 <Row>
                
                     <Col style={{width: "33%"}}>
-                        <img src={imageUrl} alt={title} style={{cursor: "pointer"}} onClick={() => {clickHandlerMovie(currentMovie)}}/>
+                        <img className="image" src={imageUrl} alt={title} style={{cursor: "pointer", }} onClick={() => {clickHandlerMovie(currentMovie)}}/>
                     </Col>
                     <Col style={{width: "33%"}}>
-                        <div style={{color: "lightgrey"}}> {getText()}</div>
+                        <div style={{fontSize: "1.3rem", fontWeight: "500"}}> {getText()}</div>
                         <Divider style={{color: "white"}}/>
-                        <div style={{margin: 10, cursor: "pointer"}} onClick={() => {clickHandlerMovie(currentMovie)}}>{(description.length<=200) ? description : description.substring(0,199)+"..."}</div>
-                    </Col>  
+                        <div style={{color: "lightgrey", margin: 10, fontSize: "1.1rem", textAlign: "justify"}}>{(description.length<=500) ? description : description.substring(0,499)+"..."}</div>
+                    </Col>
                     <Col style={{width: "33%"}}>
-                        <Space wrap direction="vertical">
+                        <Space wrap direction="vertical" style={{alignItems: "center", width:"100%"}}>
                             {allEventLinks}
                         </Space>
                     </Col> 

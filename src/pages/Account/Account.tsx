@@ -73,7 +73,10 @@ const Account: React.FC = () => {
         <div className="Account">
 
             <Navbar/>
-            <ConfigProvider theme={{algorithm:theme.darkAlgorithm}}>
+            <ConfigProvider theme={{algorithm:theme.darkAlgorithm,
+                token: {
+                    colorPrimary: '#61dafb',
+                }}}>
                 <Layout>
                     <Content className="Account-Content">
                         <Divider orientation="left"><h1>dein Konto </h1></Divider>

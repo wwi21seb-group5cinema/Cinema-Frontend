@@ -15,7 +15,7 @@ function Home(){
     function clickHandlerMovie(currentData:any) 
         {
             navigate("/MoviePage", {state:{MovieData:MovieData[currentData]}})
-        };
+        }
 
     const [allMovies, setMovies] = useState<React.ReactElement[]>([]);
     const [MovieData,setMovieData] = useState<any[]>([]);
@@ -100,7 +100,7 @@ function Home(){
         }
         for(let i=0; i<topEventMovie.length; i++)
         {
-            carousel.push(<CarouselInput imageUrl={topEventMovie[i].externalImage ? topEventMovie[i].image_url : getURL(topEventMovie[i].image)} title={topEventMovie[i].name} description={topEventMovie[i].description} id={topEventMovie[i].id}/>);
+            carousel.push(<CarouselInput imageUrl={topEventMovie[i].externalImage ? topEventMovie[i].image_url : getURL(topEventMovie[i].image)} title={topEventMovie[i].name} description={topEventMovie[i].description} movie={topEventMovie[i]}/>);
 
         }
         setCarosel(carousel);

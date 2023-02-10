@@ -36,8 +36,8 @@
 }
 .search_image
 {
-    width: 10px;
-    max-height: 10px;
+    height: 30px;
+    width: auto;
 }
 
 
