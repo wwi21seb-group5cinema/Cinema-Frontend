@@ -1,16 +1,37 @@
 import "./Admin.css"
 import Navbar from "../../components/Navbar/Navbar";
 import {Button, ConfigProvider, List, theme} from "antd";
-import { useNavigate} from "react-router-dom";
+import {To, useNavigate} from "react-router-dom";
 
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import Search from "antd/es/input/Search";
+import Cookies from "js-cookie";
 const API_URL = process.env.REACT_APP_API_URL;
 
 function Admin(){
 
     const [ResultList,setResultList] = useState<React.ReactElement>();
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        if( !(Cookies.get("isLoggedIn") === "true")){
+            navigate(-1 as To, { replace: true });
+        }
+        const userID = Cookies.get("userID");
+        fetch(API_URL + "/user/" + userID)
+            .then( response => response.json()
+            ).then( data => {
+                if(data.isAdmin === false){
+                    navigate(-1 as To, { replace: true });
+                }
+            }
+
+
+        ).catch(error =>{
+            console.log(error)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     function onSearch(e:any){
         fetch(API_URL + "/movie/tmdb/getTmdb?movieName=" + e)

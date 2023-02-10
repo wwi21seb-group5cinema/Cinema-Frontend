@@ -4,6 +4,8 @@ import {Button, ConfigProvider,  List, theme,DatePicker,Select} from "antd";
 
 
 import React, {useEffect, useState} from "react";
+import Cookies from "js-cookie";
+import {To, useNavigate} from "react-router-dom";
 const API_URL = process.env.REACT_APP_API_URL;
 
 
@@ -13,25 +15,46 @@ let cinemaHallID:string = "";
 let MovieId :string = "";
 let EventDateTime:string = "";
 
-function Admin(){
+function addEvent(){
 
     const [ResultList,setResultList] = useState<React.ReactElement>();
     const [EventForm,setEventForm] = useState<React.ReactElement>();
-
+    const navigate = useNavigate();
     const dropdownlist: React.ReactElement[] = [];
 
     useEffect(()=>{
+
+        if( !(Cookies.get("isLoggedIn") === "true")){
+            navigate(-1 as To, { replace: true });
+        }
+        const userID = Cookies.get("userID");
+        fetch(API_URL + "/user/" + userID)
+            .then( response => response.json()
+            ).then( data => {
+                if(data.isAdmin === false){
+                    navigate(-1 as To, { replace: true });
+                }
+            }
+
+        ).catch(error =>{
+            console.log(error)
+        })
+
         fetch(API_URL + "/cinemaHall/getAll")
             .then(response => response.json())
             .then(data =>{
                 cinemaHalls = data;
                 let i:number = 0;
                 cinemaHalls.map(async (id: any) => {
-                    const response = await fetch(API_URL + "/cinemaHall/get?id=" + id)
-                    const data = await response.json();
-                    cinemaHallMap[data.name] = id;
-                    dropdownlist.push(<Select.Option key={i} value={data.name}>{data.name}</Select.Option>);
-                    i++;
+                    try {
+                        const response = await fetch(API_URL + "/cinemaHall/get?id=" + id)
+                        const data = await response.json();
+                        cinemaHallMap[data.name] = id;
+                        dropdownlist.push(<Select.Option key={i} value={data.name}>{data.name}</Select.Option>);
+                        i++;
+                    }catch(error){
+                        console.log(error);
+                    }
                 });
             })
         fetch(API_URL + "/movie/getAll")
@@ -123,14 +146,12 @@ function Admin(){
                     <h2>{name}</h2>
                     </div>
                     <div className="EventForm">
-                        <Select  className="SaalSelect" onSelect={cinemaHallSelected}>
+                        <Select  placeholder="wähle einen Saal aus" className="SaalSelect" onSelect={cinemaHallSelected}>
                             {dropdownlist}
                         </Select>
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm" onOk={datePicked} />
+                        <DatePicker placeholder="wähle ein Datum aus" showTime format="YYYY-MM-DD HH:mm" onOk={datePicked} />
                         <Button className="EventButton" onClick={createEventRequest}>Event erstellen</Button>
                     </div>
-
-
 
                 </div>
 
@@ -166,4 +187,4 @@ function Admin(){
         </div>
     );
 }
-export default Admin
+export default addEvent
