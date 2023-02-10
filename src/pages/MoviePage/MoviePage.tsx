@@ -180,6 +180,7 @@ function MoviePage (){
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
         <div className="app">
             <Navbar/>
@@ -192,7 +193,7 @@ function MoviePage (){
                     </Space>
                 </Col>
                 <Col style={{width: "33%"}}>
-                    <h1 style={{fontFamily: "raleway"}}> {title} </h1>
+                    <h1> {title} </h1>
                     <p style={{margin: 10, color: "white"}}>{description}</p>
                     <Divider/>
                     <Space wrap direction="vertical">
