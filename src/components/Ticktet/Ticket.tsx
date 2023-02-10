@@ -42,7 +42,12 @@ const Movie: React.FC<Props> = ({  title, date, cinemaHall, place, row,id, onCli
 
     function getText2()
     {
-        return "Reihe: "+row+" | Platz: "+place
+        return "Reihe: "+rowNumberToLetter(row)+" | Platz: "+place
+    }
+
+    function rowNumberToLetter(row: number) {
+        let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return alphabet.charAt(row-1);
     }
 
     function getDateTime(date:String)
