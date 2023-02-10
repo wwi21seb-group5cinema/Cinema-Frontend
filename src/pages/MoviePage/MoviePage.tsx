@@ -25,9 +25,7 @@ function MoviePage (){
     {
         return API_URL + "/image/get/"+image.id.toString()
     }
-    
-    
-    console.log(MovieData)
+
     const imageUrl = MovieData.externalImage ? MovieData.image_url : getURL(MovieData.image);
     const title = MovieData.name;
     const description= MovieData.description;

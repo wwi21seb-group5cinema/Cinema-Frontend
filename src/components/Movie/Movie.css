@@ -97,3 +97,10 @@
 .movie:hover div:nth-of-type(1) {
     opacity: 1;
 }
+
+.image{
+    height: 300px;
+    width: auto;
+    margin-top: auto;
+    margin-bottom: auto
+}

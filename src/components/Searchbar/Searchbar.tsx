@@ -2,6 +2,8 @@ import "./Searchbar.css"
 import React, { useEffect, useState } from "react";
 import { Input, ConfigProvider, theme, List } from 'antd';
 import {Link, useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
+
 
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -11,7 +13,6 @@ function Searchbar(){
     const [showResult,setShowResult] = useState(false);
     const [MovieData,setMovieData] = useState<any[]>([]);
     const { Search } = Input;
-    
     useEffect(() => {
         fetch(API_URL + "/movie/getAll")
             .then(response => response.json())
@@ -22,8 +23,12 @@ function Searchbar(){
                 console.log(error);
             })
     }, []);
+    if(window.location.href!=="http://localhost:3000/MovieInfo")
+    {
+        Cookies.remove("search")
+    }
+    const placeholder = Cookies.get("search") ? Cookies.get("search") :"Suche nach Filmen";
 
-     
 
     function onChange(e:any){
         const searchWord = e.target.value;
@@ -38,7 +43,14 @@ function Searchbar(){
 
     function onSearch() {
         setShowResult(false);
-        navigate('/MovieInfo',{state:{searchWord:search}});
+        Cookies.set('search', search, {expires: 7});
+        if(window.location.href==="http://localhost:3000/MovieInfo")
+        {
+            console.log("log")
+            navigate(0);
+
+        }
+        else{navigate('/MovieInfo')}
     }
 
     function onKeyDown (e:any) {
@@ -68,7 +80,7 @@ function Searchbar(){
                 }
             >
             <div onKeyDown={onKeyDown} >
-                <Search className ="search" placeholder="Suche nach Filmen" allowClear onChange={onChange} onSearch={onSearch} enterButton size="large"/>
+                <Search className ="search" placeholder={placeholder} allowClear onChange={onChange} onSearch={onSearch} enterButton size="large"/>
             </div>
             {(filteredData.length !==0&&showResult) && (
                 <div className="result">
