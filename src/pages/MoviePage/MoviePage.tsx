@@ -1,5 +1,6 @@
 import { StarOutlined } from "@ant-design/icons";
-import { Button, Col, ConfigProvider, Divider, Row, Space, theme} from "antd";
+import { AutoComplete, Button, Col, ConfigProvider, Divider, Row, Space, theme} from "antd";
+import { any } from "prop-types";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
@@ -36,9 +37,34 @@ function MoviePage (){
     const end_date=MovieData.end_date 
     const producer=MovieData.producer
     const director=MovieData.director
-    const actors=MovieData.actors
-    
+    const id=MovieData.id
+    const trailerUrl = MovieData.trailer_url
+    const [actorsList,setActorsList] = useState<any>("");
 
+    function getAllActors(id:any){
+    let actors = ""   
+        fetch(API_URL + "/actsIn/getByMovie?movieId=" + id)
+            .then(response => response.json())
+            .then(data =>{
+                console.log(data)
+                for (let i=0; i<data.length; i++){
+                    actors = actors + data[i].actor.name + " " + data[i].actor.firstName +": " + data[i].characterName + "\n";
+
+                }
+                setActorsList(actors)
+                
+                
+            })
+            .catch(error =>{
+                console.log(error);
+            })     
+    }
+    
+    useEffect( ()=>{
+        getAllActors(id)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+    console.log(actorsList)
     function getGenre()
     {
         return "Genre: " +genre.name}
@@ -65,7 +91,7 @@ function MoviePage (){
         return "Regisseur: " +director.firstName + " " + director.name}
     function getActors()
     {
-        return "Schauspieler: " +actors}
+        return "Schauspieler: " + actorsList}
 
 
     function getFSKString(fsk: any)
@@ -106,6 +132,14 @@ function MoviePage (){
             rightMinutes = minutes
         return rightMinutes
     }
+    function getTrailer(url:any) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+    
+        return (match && match[2].length === 11)
+          ? match[2]
+          : null;
+    }
     
     const eventLink: React.ReactElement[] = [];
     const [allEventLinks,setEventLinks] = useState<React.ReactElement[]>();
@@ -145,18 +179,20 @@ function MoviePage (){
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
         <div className="app">
             <Navbar/>
             <Row>
                 <Col style={{width: "33%"}}>
                     <Space wrap direction="vertical">
-                        <img src={imageUrl} alt={title} />
-                        <img src={imageUrl} alt={title} />
+                        <img src={imageUrl} alt={title} style={{height: 250, width: 444.44}}/>
+                        <h2>Trailer</h2>
+                        <iframe src={"https://www.youtube.com/embed/" + getTrailer(trailerUrl)} allowFullScreen style={{height: 250, width: 444.44}} title="trailer"/>
                     </Space>
                 </Col>
                 <Col style={{width: "33%"}}>
-                    <h1 style={{fontFamily: "raleway"}}> {title} </h1>
+                    <h1> {title} </h1>
                     <p style={{margin: 10, color: "white"}}>{description}</p>
                     <Divider/>
                     <Space wrap direction="vertical">

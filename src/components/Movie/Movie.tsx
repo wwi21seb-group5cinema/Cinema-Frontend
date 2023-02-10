@@ -99,6 +99,7 @@ const Movie: React.FC<Props> = ({ imageUrl, title, description, events, genre, l
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
             <Card
 

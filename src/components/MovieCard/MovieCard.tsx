@@ -64,12 +64,13 @@ const MovieCard: React.FC<Props> = ({ imageUrl, title, description, genre, lengt
             algorithm: theme.darkAlgorithm,
             token: {
                 colorPrimary: '#61dafb',
+                fontFamily: "raleway"
             }}}>
             <Card
                 hoverable
                 title={title}
                 style={styles.movie}
-                headStyle={{color: '#61dafb', fontSize: "1.5rem", fontWeight: "500"}}
+                headStyle={{color: '#61dafb', fontSize: "1.5rem", fontWeight: "500", fontFamily: "raleway"}}
                 onClick={() => {clickHandlerMovie(currentMovie)}}
             >
                <Row>
