@@ -81,7 +81,6 @@ function MoviePage (){
                 return "16"
             case "EIGHTEEN":
                 return "18"
-        
         }
     }
 
