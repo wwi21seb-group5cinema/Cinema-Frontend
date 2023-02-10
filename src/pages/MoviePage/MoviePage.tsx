@@ -1,7 +1,7 @@
 import { StarOutlined } from "@ant-design/icons";
 
-import { AutoComplete, Button, Col, ConfigProvider, Divider, Row, Space, theme, List} from "antd";
-import { any } from "prop-types";
+import { Button, Col, ConfigProvider, Divider, Row, Space, theme, List} from "antd";
+
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
